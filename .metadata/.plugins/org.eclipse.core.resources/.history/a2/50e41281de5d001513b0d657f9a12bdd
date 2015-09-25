@@ -1,0 +1,56 @@
+package simple;
+
+import java.util.Scanner;
+
+public class SimpleGame
+{
+    /**
+     * Simulates playing one game of Simple.
+     */
+    public void play()
+    {
+        Scanner scanner = new Scanner(System.in);
+        SimplePlayer player = new SimplePlayer();
+        char c1 = 'n';
+        boolean play = true;
+        int sum = 0;
+
+        while(play = true) {
+        	player.throwDie();
+        	System.out.format(player.throwResult() + "%nDo you wish to play again? (Y/n)%n");
+        	String str = scanner.next();
+        	if (Character.toLowerCase(str.charAt(0)) == c1){
+        		play = false;
+        		System.out.format("The total amount of points: " + player.gettotalPoints() + "%nThe total times rolled: " + player.getthrowCount() + "%nThe average of points: " + player.gettotalPoints() / player.getthrowCount());
+        	}
+        	
+        }
+        
+        
+        
+        // TODO:
+        // repeat
+        //     player throws the die
+        //     print the result of the throw
+        //     ask the user if he wants to throw again
+        //        ('n' or 'N' means no, anything else means yes)
+
+        scanner.close();
+
+        // TODO (using printf):
+        // print the player's total points and the number of throws
+        // print the average points in each throw
+    }
+
+    /**
+     * Prints the rules of Simple.
+     */
+    public void printRules()
+    {
+        System.out.println("=================================================");
+        System.out.println("Rules of Simple:");
+        System.out.println("The player throws the die as long as he/she wants.");
+        System.out.println("=================================================");
+    }
+
+}

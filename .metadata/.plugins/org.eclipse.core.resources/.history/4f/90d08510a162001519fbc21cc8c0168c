@@ -1,0 +1,23 @@
+package exercises;
+
+public class BankAccount {
+
+	private int number;
+	private int balance;
+	private String accountType;
+
+	public BankAccount(String accountType, int balance, int number) {
+		this.accountType = accountType;
+		this.balance = balance;
+		this.number = number;
+	}
+
+	public void addFunds(int amount) {
+		this.balance += amount;
+	}
+	
+	public void withdrawFunds(int amount){
+		this.balance -= amount;
+	}
+
+}

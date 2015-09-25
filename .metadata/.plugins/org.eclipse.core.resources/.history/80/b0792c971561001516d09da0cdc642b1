@@ -1,0 +1,33 @@
+package craps;
+
+import java.util.Scanner;
+
+public class CrapsApp
+{
+    public static void main(String[] args)
+    {
+        System.out.format("Welcome to the game of Craps%nAre you ready to play?%n");
+        
+        Scanner sc = new Scanner(System.in);
+
+        CrapsGame game = new CrapsGame();
+        game.printRules();
+        
+        String s1 = sc.nextLine();
+        
+        while(!s1.equalsIgnoreCase("n")){
+        
+        game.play();
+        
+        System.out.println("Do you want to play again? (Y/N)");
+        s1 = sc.nextLine();
+        
+        }
+        
+        sc.close();
+        
+
+        System.out.format("Thank you for playing craps.%n");
+        System.out.format("You had %d wins and %d losses%n", game.getWins(), game.getLoss());
+    }
+}

@@ -1,0 +1,91 @@
+package craps;
+
+public class CrapsPlayer
+{
+    // die to be rolled
+    private Die die1;
+    // die to be rolled
+    private Die die2;
+    // point set at first throw
+    private int point;
+    // whether last throw was a win
+    private boolean won;
+    // whether last throw was a loss
+    private boolean lost;
+
+    /**
+     * Creates a new player.
+     */
+    public CrapsPlayer()
+    {
+        die1 = new Die();
+        die2 = new Die();
+        this.point = 0;
+        this.won = false;
+        this.lost = false;
+    }
+
+    /**
+     * Returns true, if the player has won.
+     */
+    public boolean hasWon()
+    {
+        this.won = true;
+    	return true;
+    }
+
+    /**
+     * Returns true, if the player has lost.
+     */
+    public boolean hasLost()
+    {
+        this.lost = true;
+    	return true;
+    }
+
+    /**
+     * Throws the dice - first throw.
+     */
+    public void firstThrow()
+    {
+        die1.roll();
+        die2.roll();
+        point = die1.getfaceValue() + die2.getfaceValue();
+        if (die1.getfaceValue() + die2.getfaceValue() == 7 || die1.getfaceValue() + die2.getfaceValue() == 11){
+        	hasWon();
+        	System.out.format("You've won!");
+        }else if (die1.getfaceValue() + die2.getfaceValue() == 2 || die1.getfaceValue() + die2.getfaceValue() == 3 || die1.getfaceValue() + die2.getfaceValue() == 12){
+        	hasLost();
+        	System.out.format("You've lost!");
+        }else {
+        	System.out.format("Point is: %d" + point);
+        }
+    }
+
+    /**
+     * Throws the dice - second and following throws.
+     */
+    public void nextThrow()
+    {
+        while (hasWon() == false || hasLost() == false){
+        	die1.roll();
+        	die2.roll();
+        	if (die1.getfaceValue() + die2.getfaceValue() == point){
+        		hasWon();
+        		System.out.format("You've won!");
+        	}else if (die1.getfaceValue() + die2.getfaceValue() == 7){
+        		hasLost();
+        		System.out.format("You've lost!");
+        	}
+        }
+    }
+
+    /**
+     * Returns a description of the result of the last throw.
+     */
+    public String diceResult()
+    {
+        int sum = die1.getfaceValue() + die2.getfaceValue();
+        return "(" + die1.getfaceValue() + ", " + die2.getfaceValue() + ") The sum of the roll: " + sum;
+    }
+}

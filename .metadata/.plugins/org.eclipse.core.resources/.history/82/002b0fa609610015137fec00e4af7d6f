@@ -1,0 +1,13 @@
+package pig;
+
+public class PigApp {
+	
+	public static void main(String[] args)
+	{
+	System.out.println("Have fun playing pigs!");
+	PigGame game = new PigGame();
+	game.play();
+	
+	}
+
+}

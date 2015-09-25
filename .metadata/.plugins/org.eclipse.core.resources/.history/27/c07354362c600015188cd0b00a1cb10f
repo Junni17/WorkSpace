@@ -1,0 +1,16 @@
+package pig;
+
+public class PigPlayer 
+{
+	private Die die1;
+	private int point;
+	private int sum;
+	
+	public PigPlayer()
+	{
+		this.die1 = new Die();
+		this.point = 0;
+		this.sum = 0;
+	}
+
+}

@@ -1,0 +1,4 @@
+content_types=org.eclipse.core.runtime.text|org.eclipse.egit.contenttype.gitignore|org.eclipse.ltk.core.refactoring.refactoringIndex|org.eclipse.egit.patch|org.eclipse.core.runtime.xml|org.eclipse.ant.core.antBuildFile|org.eclipse.emf.ecore.xmi|org.eclipse.emf.ecore|org.eclipse.emf.emof|org.eclipse.jdt.junit.JUnitResult|org.eclipse.e4.content-type|org.eclipse.ltk.core.refactoring.refactoringHistory|org.eclipse.jdt.core.javaProperties|org.eclipse.core.resources.preferences|org.eclipse.jdt.core.javaSource|org.eclipse.jdt.core.JARManifest
+draw_blank_line=true
+eclipse.preferences.version=1
+line_alpha=100

@@ -1,0 +1,69 @@
+package craps;
+
+public class CrapsGame
+{
+    /**
+     * Simulates playing the game of craps.
+     */
+    public void play()
+    {
+        
+    	CrapsPlayer p1 = new CrapsPlayer();
+    	
+    	//first throw ------------------------------------
+    	
+    	p1.firstThrow();
+        while (p1.hasWon() == false || p1.hasLost() == false){        
+            
+        	if (p1.getPoint() == 7 || p1.getPoint() == 11){
+            	System.out.println(p1.diceResult());
+            	this.gameWon();
+            	p1.hasWon();
+            
+            }else if (p1.getPoint() == 2 || p1.getPoint() == 3 || p1.getPoint() == 12){
+            	System.out.println(p1.diceResult());
+            	this.gameLost();
+            	p1.hasLost();
+            
+            }else {
+            	System.out.format("Point is: %d%n", p1.getPoint());
+            	
+            	//second throw --------------------------------
+            	
+            	while (p1.getWon() == false || p1.getLost() == false){
+            		p1.nextThrow();
+            
+            		if (p1.getSum() == p1.getPoint()){
+            			this.gameWon();
+            			p1.hasWon();
+            		}
+            	}
+            }
+        	
+        }
+    }
+
+    /**
+     * Prints a 'You have won' message.
+     */
+    public void gameWon()
+    {
+        System.out.format("You have won!%n");
+    }
+
+    /**
+     * Prints a 'You have lost' message.
+     */
+    public void gameLost()
+    {
+        System.out.format("You have lost!%n");
+    }
+
+    /**
+     * Prints the rules of craps.
+     */
+    public void printRules()
+    {
+        System.out.format("rules%n");
+    }
+}

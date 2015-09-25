@@ -1,0 +1,84 @@
+package craps;
+
+public class CrapsPlayer
+{
+    // die to be rolled
+    private Die die1;
+    // die to be rolled
+    private Die die2;
+    // point set at first throw
+    private int point;
+    // whether last throw was a win
+    private boolean won;
+    // whether last throw was a loss
+    private boolean lost;
+
+    /**
+     * Creates a new player.
+     */
+    public CrapsPlayer()
+    {
+        die1 = new Die();
+        die2 = new Die();
+        this.point = 0;
+        this.won = false;
+        this.lost = false;
+    }
+
+    /**
+     * Returns true, if the player has won.
+     */
+    public boolean hasWon()
+    {
+        return true;
+    }
+
+    /**
+     * Returns true, if the player has lost.
+     */
+    public boolean hasLost()
+    {
+        return true;
+    }
+
+    /**
+     * Throws the dice - first throw.
+     */
+    public void firstThrow()
+    {
+        die1.roll();
+        die2.roll();
+        if (die1.getfaceValue() + die2.getfaceValue() == 7 || die1.getfaceValue() + die2.getfaceValue() == 11){
+        	hasWon();
+        }else if (die1.getfaceValue() + die2.getfaceValue() == 2 || die1.getfaceValue() + die2.getfaceValue() == 3 || die1.getfaceValue() + die2.getfaceValue() == 12){
+        	hasLost();
+        }else {
+        	point = die1.getfaceValue() + die2.getfaceValue();
+        }
+    }
+
+    /**
+     * Throws the dice - second and following throws.
+     */
+    public void nextThrow()
+    {
+        while (hasWon() == false || hasLost() == false){
+        	die1.roll();
+        	die2.roll();
+        	if (die1.getfaceValue() + die2.getfaceValue() == point){
+        		hasWon();
+        	}else if (die1.getfaceValue() + die2.getfaceValue() == 7){
+        		hasLost();
+        	}
+        }
+    }
+
+    /**
+     * Returns a description of the result of the last throw.
+     */
+    public String diceResult()
+    {
+        // TODO
+        return "(" + die1.getfaceValue() + ", " + die2.getfaceValue() + ")";
+    }
+}

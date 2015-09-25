@@ -1,0 +1,11 @@
+package ex2ex3ex4student;
+
+public class PersonTester {
+
+	public static void main(String[] args) {
+
+		Person p1 = new Person("Andersen", "Jonas", 4, 6, 1993);
+
+	}
+
+}

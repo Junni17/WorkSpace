@@ -1,0 +1,17 @@
+package model;
+
+public class HELLOO {
+
+	public static void main(String[] args) {
+
+		String s1 = "lol";
+		String s2 = "derp";
+		String s3 = "herro";
+
+		int fk = 3;
+
+		System.out.println((int) (Math.random() + 1));
+
+	}
+
+}

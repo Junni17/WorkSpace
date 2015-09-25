@@ -1,0 +1,23 @@
+package pig;
+
+import java.util.Scanner;
+
+public class PigApp {
+	
+	public static void main(String[] args)
+	{
+		
+	Scanner sc = new Scanner(System.in);
+	System.out.println("Please set max score! (Default is 100)");
+	int maxScore = sc.nextInt();
+	
+	System.out.println("Have fun playing pigs!");
+	System.out.println("The game has begun!");
+	
+	
+	PigGame game = new PigGame(maxScore);
+	game.play();
+	
+	}
+
+}

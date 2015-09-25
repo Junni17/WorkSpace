@@ -1,0 +1,86 @@
+package craps;
+
+import java.util.Scanner;
+
+public class CrapsGame
+{
+    /**
+     * Simulates playing the game of craps.
+     */
+    public void play()
+    {
+        
+    	Scanner scanner = new Scanner(System.in);
+    	CrapsPlayer p1 = new CrapsPlayer();
+        String s1 = "n";
+        boolean play = true;
+    	
+    	//first throw ------------------------------------ 
+        while(play == true) {
+        	p1.firstThrow();
+        	System.out.println(p1.diceResult());
+            
+        	if (p1.getSum() == 7 || p1.getSum() == 11){
+            	this.gameWon();
+            
+            }else if (p1.getSum() == 2 || p1.getSum() == 3 || p1.getSum() == 12){
+            	this.gameLost();
+            
+            }else {
+            	
+            	System.out.println("Point is: " + p1.getPoint());
+            	
+            	//second throw --------------------------------
+            	
+            	while (p1.getWon() == false && p1.getLost() == false){ 
+            		
+            		p1.nextThrow();
+            		
+                	System.out.println(p1.diceResult());
+            
+            		if (p1.getSum() == p1.getPoint()){
+            			this.gameWon();
+            			p1.hasWon();
+            		}else if (p1.getSum() == 7){
+            			this.gameLost();
+            			p1.hasLost();
+            		}
+            	}
+            }
+        	System.out.println("Do you want to play again? ");
+        	String s2 = scanner.nextLine();
+        	if (s2.equalsIgnoreCase(s1)){
+        		play = false;
+        		scanner.close();
+
+        	}
+
+        }
+        	
+        }
+    
+
+    /**
+     * Prints a 'You have won' message.
+     */
+    public void gameWon()
+    {
+        System.out.format("You have won!%n");
+    }
+
+    /**
+     * Prints a 'You have lost' message.
+     */
+    public void gameLost()
+    {
+        System.out.format("You have lost!%n");
+    }
+
+    /**
+     * Prints the rules of craps.
+     */
+    public void printRules()
+    {
+        System.out.format("The rules are simple!%n");
+    }
+}
