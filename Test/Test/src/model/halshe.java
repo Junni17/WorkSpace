@@ -8,9 +8,9 @@ public class halshe {
 
 		Scanner derp = new Scanner(System.in);
 		System.out.println("Er Bella sød?");
-		String bellaErSød = derp.nextLine();
+		String bellaErS�d = derp.nextLine();
 
-		if (bellaErSød == "Ja") {
+		if (bellaErS�d == "Ja") {
 			System.out.println("Ja hun er så!!!!!!!<3");
 		}
 		derp.close();
