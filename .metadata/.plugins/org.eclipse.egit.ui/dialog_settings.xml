@@ -27,6 +27,9 @@
 		</list>
 	</section>
 	<section name="org.eclipse.egit.ui.internal.pull.PullResultDialog.dialogBounds">
+		<item value="1039" key="DIALOG_WIDTH"/>
+		<item value="1|Segoe UI|9.0|0|WINDOWS|1|-24|0|0|0|400|0|0|0|1|0|0|0|0|Segoe UI" key="DIALOG_FONT_NAME"/>
+		<item value="615" key="DIALOG_HEIGHT"/>
 		<item value="1314" key="DIALOG_X_ORIGIN"/>
 		<item value="648" key="DIALOG_Y_ORIGIN"/>
 	</section>
