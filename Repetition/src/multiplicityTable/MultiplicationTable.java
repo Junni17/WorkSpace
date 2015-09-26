@@ -2,7 +2,6 @@ package multiplicityTable;
 
 public class MultiplicationTable {
 
-	@SuppressWarnings("null")
 	public static void main(String[] args) {
 
 		final int rows_max = 10;
