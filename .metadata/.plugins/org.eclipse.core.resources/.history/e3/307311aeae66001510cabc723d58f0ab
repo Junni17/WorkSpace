@@ -1,0 +1,18 @@
+package ex5student;
+
+import java.util.Arrays;
+
+public class TestStudent {
+	public static void main(String[] args) {
+		Student s1 = new Student("Hanne");
+		Student s2 = new Student("Margrethe");
+
+		System.out.println(s1.getName());
+		s1.addGrade(10);
+		s1.addGrade(30);
+		System.out.println(Arrays.toString(s1.getGrades()));
+		System.out.println(s1.getAverage());
+		System.out.println(s2.getName());
+
+	}
+}
