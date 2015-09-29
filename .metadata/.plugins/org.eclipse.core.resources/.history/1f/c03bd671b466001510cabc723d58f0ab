@@ -1,0 +1,27 @@
+package ex6student;
+
+import java.util.Arrays;
+
+public class TestChild {
+
+	@SuppressWarnings("unused")
+	public static void main(String[] args) {
+		Child b1 = new Child("Emma");
+		Child b2 = new Child("Oliver");
+
+		System.out.println(b1.getName());
+		b1.setWeight(23.7, 1);
+		b1.setWeight(221.5, 2);
+		b1.setWeight(11.73, 3);
+		b1.setWeight(7.8, 4);
+		b1.setWeight(500.0, 4);
+		b1.setWeight(2.7, 5);
+		b1.setWeight(3.7, 6);
+		b1.setWeight(1.2, 7);
+
+		System.out.println(Arrays.toString(b1.getWeights()));
+		System.out.println(b1.getWeight(5));
+
+	}
+
+}
