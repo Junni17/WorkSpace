@@ -37,6 +37,7 @@ public class ArrayTest {
 		return total;
 	}
 
+	@SuppressWarnings("unused")
 	public static int[] sumArrays(int[] a, int[] b) {
 
 		// if they have the same length
@@ -51,6 +52,7 @@ public class ArrayTest {
 			// if they have different lengths ???
 		} else if (a.length > b.length || b.length > a.length) {
 			int length = Math.max(b.length, a.length);
+
 			int[] sum = new int[length];
 			for (int i = 0; i < length; i++) {
 
