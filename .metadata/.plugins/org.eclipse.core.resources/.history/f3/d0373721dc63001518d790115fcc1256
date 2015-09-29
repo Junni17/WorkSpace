@@ -1,0 +1,35 @@
+package montyHallParadox;
+
+import java.util.Scanner;
+
+public class Game {
+
+	Scanner scanner = new Scanner(System.in);
+
+	private int doors;
+	private int car;
+
+	public Game() {
+		this.doors = 3;
+		this.car = 0;
+	}
+
+	public void placeCar() {
+		this.car = (int) (Math.random() * this.doors + 1);
+
+	}
+
+	public void pickDoor() {
+		int input = this.scanner.nextInt();
+		System.out.println("Pick a door: ");
+
+		for (int n = 0; n < 2; n++){
+		if (input < 0 || input > 3) {
+			System.out.println("Pick a door between 1 and 3!");
+		}else{
+
+		}
+		}
+	}
+
+}

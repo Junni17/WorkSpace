@@ -1,0 +1,30 @@
+package montyHallParadox;
+
+import java.util.Random;
+
+public class MontyHallSimulation {
+
+	Random random = new Random();
+	private int doors = 3;
+
+	for (int i = 0; i < 1000; i++){
+		
+	}
+
+	for(
+	int i = 0;i<this.rounds;i++)
+
+	{
+		int choose = this.random.nextInt(this.doors);// choose a door at random
+		int solution = this.random.nextInt(this.doors);// find a random place
+														// where the car will
+														// be.
+		if (solution != choose) {// Car is in the other door - if you change
+									// you win
+			this.changeCount++;
+		} else {// If you stay you win.
+			this.stayCount++;
+		}
+	}
+
+}

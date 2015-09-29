@@ -1,0 +1,13 @@
+package multiplicityTable;
+
+public class Tables {
+
+	public static void main(String[] args) {
+
+		for (x = 1; x <= 10; x +1 ){
+
+		}
+
+	}
+
+}

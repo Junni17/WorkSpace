@@ -1,0 +1,39 @@
+package montyHallParadox;
+
+import java.util.Random;
+
+public class MontyHallParadox {
+
+	Random RANDOM = new Random();
+	private int doors;
+	private int change_count;
+	private int stay_count;
+
+	public MontyHallParadox() {
+		this.doors = 3;
+	}
+
+	public int random() {
+		int solution = this.RANDOM.nextInt(this.doors) + 1;
+		return solution;
+	}
+
+	public void play(){
+		int choose = this.RANDOM.nextInt(this.doors) + 1;
+		int solution = this.RANDOM.nextInt(this.doors) + 1;
+
+		if (choose != solution){
+			change_count++;
+		}else{
+			stay_count++;
+		}
+	}
+
+	public static void main(String[] args) {
+
+		MontyHallParadox game = new MontyHallParadox();
+		System.out.println(game.random());
+
+	}
+
+}

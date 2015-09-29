@@ -1,0 +1,23 @@
+package montyHallParadox;
+
+import java.util.Random;
+
+public class MontyHallParadox {
+
+	Random RANDOM = new Random();
+	private int doors;
+
+	public MontyHallParadox() {
+		this.doors = 3;
+	}
+
+	public void random() {
+		this.RANDOM.nextInt(this.doors);
+	}
+
+	public static void main(String[] args) {
+		System.out.println(MontyHallParadox.random);
+
+	}
+
+}

@@ -1,0 +1,14 @@
+package montyHallParadox;
+
+import java.util.Random;
+
+public class MontyHallParadox {
+
+	Random RANDOM = new Random();
+	private int doors = 3;
+
+	public static void main(String[] args) {
+
+	}
+
+}

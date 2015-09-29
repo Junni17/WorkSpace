@@ -1,0 +1,9 @@
+package montyHallParadox;
+
+public class MontyHallParadox {
+
+	public static void main(String[] args) {
+
+	}
+
+}

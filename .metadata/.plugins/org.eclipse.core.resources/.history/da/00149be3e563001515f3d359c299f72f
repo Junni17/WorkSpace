@@ -1,0 +1,26 @@
+package montyHallParadox;
+
+public class GameApp {
+
+	public static void main(String[] args) {
+
+		int doors = 3;
+		int car_door = 0;
+		// int door_pick = (int) (Math.random() * this.doors + 1);
+		int goat_door1 = 0;
+		int goat_door2 = 0;
+
+		while ((car_door == goat_door1 && car_door == goat_door2
+				|| goat_door1 == goat_door2 && goat_door2 == goat_door1)) {
+
+			car_door = (int) (Math.random() * doors + 1);
+			goat_door1 = (int) (Math.random() * doors + 1);
+			goat_door2 = (int) (Math.random() * doors + 1);
+		}
+
+		System.out.println(car_door);
+		System.out.println(goat_door1);
+		System.out.println(goat_door2);
+	}
+
+}
