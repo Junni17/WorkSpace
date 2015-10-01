@@ -1,0 +1,8 @@
+package team_and_player;
+
+public class Team {
+
+	private String name;
+	private ArrayList<Player>();
+
+}

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <launchConfiguration type="org.eclipse.jdt.launching.localJavaApplication">
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
-<listEntry value="/Arrays/src/Exercises/ArrayTest.java"/>
+<listEntry value="/Arrays/src/exercises/ArrayTest.java"/>
 </listAttribute>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_TYPES">
 <listEntry value="1"/>
 </listAttribute>
-<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="Exercises.ArrayTest"/>
+<stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="exercises.ArrayTest"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="Arrays"/>
 </launchConfiguration>
