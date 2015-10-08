@@ -38,6 +38,8 @@
 	<section name="ZipFileImportWizard">
 		<item value="false" key="WizardZipFileResourceImportPage1.STORE_OVERWRITE_EXISTING_RESOURCES_ID"/>
 		<list key="WizardZipFileResourceImportPage1.STORE_SOURCE_NAMES_ID">
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\GuiDemoes.jar"/>
+			<item value="C:\Users\Jonas\Downloads\InheritenceExample.jar"/>
 			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\Ex2.jar"/>
 			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\array_child.jar"/>
 			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\array_student.jar"/>

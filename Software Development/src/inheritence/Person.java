@@ -1,12 +1,18 @@
 package inheritence;
 
 public class Person {
-	private String name; //The private modifier on this field means that the field is only visible in the Person class. 
-						 //Even the subclasses of the class does not have access to this field.
-	
-	protected String address; //The protected modifier makes the field visible to subclasses of the class Person, but
-							  // it also becomes visible to other classes in the same package. A better solution is to make
-							  // the field private, with appropriate getters and setters. 
+	protected String name; // The private modifier on this field means that the
+							// field is only visible in the Person class.
+							// Even the subclasses of the class does not have
+							// access to this field.
+
+	protected String address; // The protected modifier makes the field visible
+								// to subclasses of the class Person, but
+								// it also becomes visible to other classes in
+								// the same package. A better solution is to
+								// make
+								// the field private, with appropriate getters
+								// and setters.
 	protected String qualification;
 
 	public Person(String name, String address, String qualification) {
@@ -15,16 +21,19 @@ public class Person {
 		this.qualification = qualification;
 	}
 
-	public String getName() { //Necessary, if other classes including subclasses shall have access to the name field. 
-		return name;
+	public String getName() { // Necessary, if other classes including
+								// subclasses shall have access to the name
+								// field.
+		return this.name;
 	}
 
 	public void setName(String name) {
 		this.name = name;
 	}
 
-	public String getAddress() { //Subclasses and classes in the same package can access the address field directly.
-		return address;			
+	public String getAddress() { // Subclasses and classes in the same package
+									// can access the address field directly.
+		return this.address;
 	}
 
 	public void setAddress(String address) {
@@ -32,7 +41,7 @@ public class Person {
 	}
 
 	public String getQualification() {
-		return qualification;
+		return this.qualification;
 	}
 
 	public void setQualification(String qualification) {
@@ -41,10 +50,9 @@ public class Person {
 
 	public void printPerson() {
 		System.out.println();
-		System.out.println("Name: " + name);
-		System.out.println("Address: " + address);
-		System.out.println("Qualification: " + qualification);
+		System.out.println("Name: " + this.name);
+		System.out.println("Address: " + this.address);
+		System.out.println("Qualification: " + this.qualification);
 	}
-
 
 }

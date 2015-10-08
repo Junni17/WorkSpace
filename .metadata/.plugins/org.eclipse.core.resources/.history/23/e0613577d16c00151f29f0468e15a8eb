@@ -1,0 +1,8 @@
+package exercises;
+
+public class Snippet {
+	public static void main(String[] args) {
+		his.txfName.getText().trim();
+	}
+}
+

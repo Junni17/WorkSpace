@@ -1,0 +1,32 @@
+package exercise5;
+
+import java.util.ArrayList;
+
+public class Sequence {
+
+	private ArrayList<Integer> values;
+
+	public Sequence() {
+		this.values = new ArrayList<Integer>();
+	}
+
+	public void add(int n) {
+		this.values.add(n);
+	}
+
+	@Override
+	public String toString() {
+		return this.values.toString();
+	}
+
+	public Sequence append(Sequence other) {
+		ArrayList<Integer> temp = new ArrayList<Integer>();
+		temp = this.values;
+		for (int i = 0; i < other.values.size(); i++) {
+			temp.add(i);
+		}
+
+		return temp.toString();
+	}
+
+}

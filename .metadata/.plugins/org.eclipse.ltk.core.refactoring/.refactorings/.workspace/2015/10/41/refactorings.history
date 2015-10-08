@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename Java project &apos;GUI - Graphical User Interface&apos; to &apos;GUI - Example&apos;&#x0D;&#x0A;- Original element: &apos;GUI - Graphical User Interface&apos;&#x0D;&#x0A;- Renamed element: &apos;GUI - Graphical User Interface&apos;&#x0D;&#x0A;- Update references to refactored element" description="Rename Java project &apos;GUI - Graphical User Interface&apos;" flags="7" id="org.eclipse.jdt.ui.rename.java.project" input="=GUI - Graphical User Interface" name="GUI - Example" references="true" stamp="1444203037629" version="1.0"/>
+</session>

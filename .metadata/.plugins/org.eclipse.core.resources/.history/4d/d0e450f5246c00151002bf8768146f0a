@@ -1,0 +1,26 @@
+package exercise3;
+
+public class SequenceTest {
+
+	public static void main(String[] args) {
+
+		Sequence s1 = new Sequence(6);
+		s1.set(0, 1);
+		s1.set(1, 2);
+		s1.set(2, 3);
+		s1.set(3, 2);
+		s1.set(4, 4);
+		s1.set(5, 5);
+
+		Sequence s2 = new Sequence(5);
+		s2.set(0, 1);
+		s2.set(1, 2);
+		s2.set(2, 5);
+		s2.set(3, 4);
+		s2.set(4, 4);
+
+		System.out.println(s2.sameValues(s1));
+
+	}
+
+}
