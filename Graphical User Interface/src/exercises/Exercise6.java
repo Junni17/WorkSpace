@@ -33,49 +33,61 @@ public class Exercise6 extends Application {
 
 	private void initContent(GridPane pane) {
 		// show or hide grid lines
-		pane.setGridLinesVisible(false);
+		pane.setGridLinesVisible(!false);
 
 		// set padding of the pane
 		pane.setPadding(new Insets(20));
 		// set horizontal gap between components
-		pane.setHgap(10);
+		pane.setHgap(20);
 		// set vertical gap between components
-		pane.setVgap(10);
+		pane.setVgap(0);
 
 		// add a label to the pane (at col=0, row=0)
 		Label lblName = new Label("Celcius");
 		pane.add(lblName, 0, 0);
 
 		Label lblName2 = new Label("Fahrenheit");
-		pane.add(lblName2, 0, 1);
+		pane.add(lblName2, 2, 0);
 
 		// add a text field to the pane (at col=1, row=0, spanning 2 columns and
 		// 1 row)
 		this.celcius = new TextField();
-		pane.add(this.celcius, 1, 0, 2, 1);
+		pane.add(this.celcius, 0, 1, 1, 2);
 
 		this.fahrenheit = new TextField();
-		pane.add(this.fahrenheit, 1, 1, 2, 1);
+		pane.add(this.fahrenheit, 2, 1, 1, 2);
 
 		// add a button to the pane (at col=1, row=1)
-		Button calculate = new Button("   Calculate   ");
-		pane.add(calculate, 1, 2);
+		// Button calculate = new Button("<--- to Celcius");
+		// pane.add(calculate, 1, 2);
+
+		Button celcius = new Button("   <--Celcius   ");
+		pane.add(celcius, 1, 2);
+		GridPane.setMargin(celcius, new Insets(-25, 10, 2, 10));
+
+		Button fahrenheit = new Button("Fahrenheit-->");
+		pane.add(fahrenheit, 1, 2);
+		GridPane.setMargin(fahrenheit, new Insets(25, 10, -2, 10));
+		fahrenheit.setMaxWidth(100);
 
 		// connect a method to the button
-		calculate.setOnAction(event -> this.calculate());
+		fahrenheit.setOnAction(event -> this.toFahrenheit());
+		celcius.setOnAction(event -> this.toCelcius());
 
 	}
 
 	// -------------------------------------------------------------------------
 	// Button actions
 
-	private void calculate() {
-
-		double celcius = Integer.parseInt(this.celcius.getText().trim());
-		// double fahrenheit =
-		// Integer.parseInt(this.fahrenheit.getText().trim());
-
+	private void toFahrenheit() {
+		int celcius = Integer.parseInt(this.celcius.getText().trim());
 		double f_temp = (9.0 / 5) * celcius + 32;
 		this.fahrenheit.setText((String.format("%.0f", f_temp)));
+	}
+
+	private void toCelcius() {
+		int fahrenheit = Integer.parseInt(this.fahrenheit.getText().trim());
+		double c_temp = (fahrenheit - 32) * 5.0 / 9;
+		this.celcius.setText((String.format("%.0f", c_temp)));
 	}
 }
