@@ -1,9 +1,0 @@
-package inheritence;
-
-public class Teacher extends Person {
-
-	Public Teacher(String name, String adress, String qualification, int classes, int salary) {
-		super(name, adress, qualification);
-	}
-
-}

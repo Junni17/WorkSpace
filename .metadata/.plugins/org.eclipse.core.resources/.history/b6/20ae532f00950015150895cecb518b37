@@ -1,0 +1,39 @@
+package exercise5;
+
+import java.util.ArrayList;
+
+public class exercise {
+
+	public static void main(String[] args) {
+
+		String str = "Hello my name is Jonas"; // 21
+		String str2 = "Once there was a little girl";
+		String str3 = "Aslong as we get there";
+		String str4 = "A new Tenacious D tatoo";
+		String str5 = "Yes you can get a new (..)";
+		String str6 = "He's a shiny golden God";
+		String str7 = "Cus when you rule";
+
+		ArrayList<String> arrString = new ArrayList<>();
+		arrString.add(str);
+		arrString.add(str2);
+		arrString.add(str3);
+		arrString.add(str4);
+		arrString.add(str5);
+		arrString.add(str6);
+		arrString.add(str7);
+		System.out.println(exercise.findAllIndexes(arrString, str3));
+
+	}
+
+	public static ArrayList<Integer> findAllIndexes(ArrayList<String> list, String target) {
+		ArrayList<Integer> indexes = new ArrayList<>();
+		int i = 0;
+		String str = "";
+		if (list.contains(target)){
+			str = target;
+		}
+		return indexes;
+	}
+
+}

@@ -1,0 +1,110 @@
+package gui;
+
+import java.beans.EventHandler;
+
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
+import model.Conference;
+import storage.Storage;
+
+public class ConferencePane extends GridPane {
+
+	public ConferencePane() {
+		this.initContent();
+	}
+
+	// -------------------------------------------------------------------------
+
+	private ListView<Conference> conferences;
+
+	private void initContent() {
+		this.setPadding(new Insets(20));
+		this.setHgap(20);
+		this.setVgap(10);
+		this.setGridLinesVisible(false);
+
+		Label lblComp = new Label("Conferences:");
+		this.add(lblComp, 0, 0);
+
+		this.conferences = new ListView<>();
+		this.add(this.conferences, 0, 1);
+		this.conferences.setPrefWidth(300);
+		this.conferences.setPrefHeight(300);
+		this.conferences.getItems().setAll(Storage.getAllConferences());
+
+		Button btnCreate = new Button("Create");
+		btnCreate.setPrefWidth(60);
+		this.add(btnCreate, 0, 2);
+		btnCreate.setOnAction(event -> this.controller.createOnAction());
+
+		// ChangeListener<Conference> listener = (ov, oldEmployee, newEmployee)
+		// -> this.controller
+		// .getStatistics(<MouseEvent>());
+		// this.conferences.getSelectionModel().selectedItemProperty().addListener(listener);
+
+
+		this.conferences.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent mouseEvent) {
+				if (mouseEvent.getButton().equals(MouseButton.PRIMARY)) {
+					if (mouseEvent.getClickCount() == 2) {
+						System.out.println("Double clicked");
+					}
+				}
+			}
+		});
+
+	}
+
+	private Controller controller = new Controller();
+
+	private class Controller {
+
+		private void createOnAction() {
+
+			Stage stage = (Stage) ConferencePane.this.conferences.getScene().getWindow();
+			ConferenceAdministration dialog = new ConferenceAdministration(stage);
+
+			dialog.showAndWait();
+
+			if (dialog.getResult()) {
+				ConferencePane.this.conferences.getItems().setAll(Storage.getAllConferences());
+			}
+
+		}
+
+		private void getStatistics(MouseEvent click) {
+			if (click.getClickCount() == 2) {
+				Conference conference = ConferencePane.this.conferences.getSelectionModel().getSelectedItem();
+				if (conference != null) {
+					Stage stage = (Stage) ConferencePane.this.conferences.getScene().getWindow();
+					TestClass test = new TestClass(stage);
+					test.setConference(conference);
+					test.showAndWait();
+				}
+			}
+		}
+
+		private void test() {
+
+			Conference temp = ConferencePane.this.conferences.getSelectionModel().getSelectedItem();
+
+			if (temp != null) {
+
+				Stage stage = (Stage) ConferencePane.this.conferences.getScene().getWindow();
+				TestClass test = new TestClass(stage);
+				test.setConference(temp);
+				test.showAndWait();
+			}
+
+		}
+
+	}
+
+}

@@ -1,0 +1,30 @@
+package exercise7;
+
+public class exercise {
+
+	public static void main(String[] args) {
+
+	}
+
+	public static int SearchSum(int[] t, int total) {
+		int index = -1;
+		boolean found = false;
+		int i = 0;
+		while (!found && i < t.length) {
+			int sum = 0;
+			int j = i + 1;
+			while (!found && j < t.length) {
+				sum += t[i];
+				if (sum == total) {
+					index = i;
+					found = true;
+				}
+				j++;
+			}
+			i++;
+		}
+
+		return index;
+	}
+
+}

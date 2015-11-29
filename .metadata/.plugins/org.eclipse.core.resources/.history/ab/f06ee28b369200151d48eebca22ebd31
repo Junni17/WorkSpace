@@ -1,0 +1,205 @@
+package gui;
+
+import java.util.ArrayList;
+
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import model.Conference;
+import model.Excursion;
+import model.Extra;
+import model.Hotel;
+import model.Participant;
+import storage.Storage;
+
+public class EnrollmentAdministration extends Stage {
+
+	public EnrollmentAdministration(Stage owner) {
+		this.initOwner(owner);
+		this.initModality(Modality.APPLICATION_MODAL);
+		this.setResizable(false);
+
+		this.setTitle("Create new Enrollment");
+		GridPane pane = new GridPane();
+		this.initContent(pane);
+
+		Scene scene = new Scene(pane);
+		this.setScene(scene);
+	}
+
+	private ComboBox cmbParticipant, cmbHotel, cmbExtra;
+	private DatePicker dateOfArrival, dateOfDeparture;
+	private TextField conferenceName, companionName;
+	private ListView<Excursion> excursions, addedExcursions;
+	private CheckBox companion;
+	private Label lblError;
+	private Button btnAddExcursion, btnRemoveExcursion;
+
+	private void initContent(GridPane pane) {
+
+		pane.setPadding(new Insets(20));
+		pane.setHgap(20);
+		pane.setVgap(10);
+		pane.setGridLinesVisible(false);
+
+		Label lblConference = new Label("Conference:");
+		pane.add(lblConference, 1, 0);
+
+		this.conferenceName = new TextField();
+		this.conferenceName.setDisable(true);
+		pane.add(this.conferenceName, 1, 1);
+
+		Label lblParticipant = new Label("Participant:");
+		pane.add(lblParticipant, 0, 2);
+
+		this.cmbParticipant = new ComboBox<Participant>();
+		pane.add(this.cmbParticipant, 1, 2);
+		this.cmbParticipant.getItems().addAll(Storage.getAllParticipants());
+		this.cmbParticipant.setPrefWidth(200);
+
+		Label lblArrival = new Label("Arrival:");
+		Label lblDeparture = new Label("Departure:");
+
+		pane.add(lblArrival, 0, 3);
+		pane.add(lblDeparture, 0, 4);
+
+		this.dateOfArrival = new DatePicker();
+		this.dateOfDeparture = new DatePicker();
+		pane.add(this.dateOfArrival, 1, 3);
+		pane.add(this.dateOfDeparture, 1, 4);
+
+		this.companion = new CheckBox("Companion");
+		pane.add(this.companion, 0, 5);
+		this.companion.setOnMouseClicked(event -> this.controller.enableCompanion(event));
+
+		this.companionName = new TextField();
+		pane.add(this.companionName, 1, 5);
+		this.companionName.setDisable(true);
+		this.companionName.setPromptText("Name of companion");
+
+		Label lblAddedExcursions = new Label("Added excursions:");
+		pane.add(lblAddedExcursions, 2, 5);
+
+		Label lblExcursions = new Label("Excursions:");
+		pane.add(lblExcursions, 0, 6);
+
+		this.excursions = new ListView<Excursion>();
+		this.excursions.setPrefSize(200, 200);
+		this.excursions.setDisable(true);
+		pane.add(this.excursions, 1, 6);
+
+		this.addedExcursions = new ListView<Excursion>();
+		this.addedExcursions.setPrefSize(200, 200);
+		this.addedExcursions.setDisable(true);
+		pane.add(this.addedExcursions, 2, 6);
+
+		this.btnAddExcursion = new Button("Add");
+		pane.add(this.btnAddExcursion, 1, 7);
+		this.btnAddExcursion.setPrefWidth(60);
+		this.btnAddExcursion.setDisable(true);
+		this.btnAddExcursion.setOnAction(event -> this.controller.addAction());
+
+		this.btnRemoveExcursion = new Button("Remove");
+		pane.add(this.btnRemoveExcursion, 2, 7);
+		this.btnRemoveExcursion.setPrefWidth(60);
+		this.btnRemoveExcursion.setDisable(true);
+
+		Label lblHotel = new Label("Hotel:");
+		pane.add(lblHotel, 0, 8);
+
+		this.cmbHotel = new ComboBox<Hotel>();
+		pane.add(this.cmbHotel, 1, 8);
+
+		Label lblExtra = new Label("Extra");
+		pane.add(lblExtra, 0, 9);
+
+		this.cmbExtra = new ComboBox<Extra>();
+		pane.add(this.cmbExtra, 1, 9);
+
+		Button btnOK = new Button("OK");
+		btnOK.setPrefWidth(60);
+		Button btnCancel = new Button("Cancel");
+		btnCancel.setPrefWidth(60);
+		btnCancel.setOnAction(event -> this.controller.cancelAction());
+
+		this.lblError = new Label();
+		pane.add(this.lblError, 1, 10);
+
+		HBox btnBox = new HBox();
+		btnBox.getChildren().add(btnOK);
+		btnBox.getChildren().add(btnCancel);
+		btnBox.setSpacing(15);
+		pane.add(btnBox, 1, 11);
+
+	}
+
+	public void setConference(Conference conference) {
+		this.controller.conference = conference;
+		this.controller.updateControlls();
+	}
+
+	private Controller controller = new Controller();
+
+	private class Controller {
+
+		private Conference conference;
+		private ArrayList<Excursion> availableExcursions;
+		private ArrayList<Excursion> addedExcursions = new ArrayList<>();
+		private boolean result = false;
+
+		private void updateControlls() {
+			String name = this.conference.getName();
+			EnrollmentAdministration.this.conferenceName.setText(name);
+			this.availableExcursions = new ArrayList<>(this.conference.getExcursions());
+			EnrollmentAdministration.this.excursions.getItems().addAll(this.availableExcursions);
+		}
+
+		private void enableCompanion(MouseEvent event) {
+			if (EnrollmentAdministration.this.companion.isSelected()) {
+				EnrollmentAdministration.this.companionName.setDisable(false);
+				EnrollmentAdministration.this.excursions.setDisable(false);
+				EnrollmentAdministration.this.addedExcursions.setDisable(false);
+				EnrollmentAdministration.this.btnAddExcursion.setDisable(false);
+				EnrollmentAdministration.this.btnRemoveExcursion.setDisable(false);
+			} else {
+				EnrollmentAdministration.this.companionName.setDisable(true);
+				EnrollmentAdministration.this.excursions.setDisable(true);
+				EnrollmentAdministration.this.addedExcursions.setDisable(true);
+				EnrollmentAdministration.this.btnAddExcursion.setDisable(true);
+				EnrollmentAdministration.this.btnRemoveExcursion.setDisable(true);
+			}
+		}
+
+		private void addAction() {
+			Excursion excursion = EnrollmentAdministration.this.excursions.getSelectionModel().getSelectedItem();
+			int index = EnrollmentAdministration.this.excursions.getSelectionModel().getSelectedIndex();
+			if (excursion == null) {
+				return;
+			}
+			this.availableExcursions.remove(index);
+			this.addedExcursions.add(excursion);
+			EnrollmentAdministration.this.excursions.getItems().clear();
+			EnrollmentAdministration.this.excursions.getItems().addAll(this.availableExcursions);
+			EnrollmentAdministration.this.addedExcursions.getItems().clear();
+			EnrollmentAdministration.this.addedExcursions.getItems().addAll(this.addedExcursions);
+
+		}
+
+		private void cancelAction() {
+			this.result = false;
+			EnrollmentAdministration.this.hide();
+		}
+	}
+
+}

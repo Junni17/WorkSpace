@@ -1,0 +1,51 @@
+package gui;
+
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.ListView;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import model.Conference;
+import model.Excursion;
+
+public class TestClass extends Stage {
+
+	public TestClass(Stage owner) {
+		this.initOwner(owner);
+		this.initModality(Modality.APPLICATION_MODAL);
+		this.setResizable(false);
+
+		this.setTitle("TEST");
+		GridPane pane = new GridPane();
+		this.initContent(pane);
+
+		Scene scene = new Scene(pane);
+		this.setScene(scene);
+		this.updateControlls();
+	}
+
+	public void setConference(Conference conference) {
+		this.conference = conference;
+	}
+
+	private Conference conference;
+	private ListView<Excursion> excursions;
+
+	private void initContent(GridPane pane) {
+
+		pane.setGridLinesVisible(!true);
+		pane.setHgap(20);
+		pane.setVgap(10);
+		pane.setPadding(new Insets(20));
+
+		this.excursions = new ListView<>();
+		pane.add(this.excursions, 0, 0);
+
+	}
+
+	private void updateControlls() {
+		this.excursions.getItems().setAll(this.conference.getExcursions());
+	}
+
+}

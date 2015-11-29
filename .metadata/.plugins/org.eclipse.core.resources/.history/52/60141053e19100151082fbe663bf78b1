@@ -1,0 +1,71 @@
+package model;
+
+import java.time.LocalDate;
+
+public class Excursion {
+	private String name;
+	private int price;
+	private LocalDate date;
+	// private ArrayList<Companion> companions = new ArrayList<>();
+
+	public Excursion(String name, LocalDate date, int price) {
+		this.name = name;
+		this.price = price;
+		this.date = date;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public LocalDate getDate() {
+		return this.date;
+	}
+
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	public int getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	@Override
+	public String toString() {
+		String temp = "Excursion: " + this.name + ". Price: " + this.price + ". Takes place: " + this.date;
+		return temp;
+	}
+
+	// -----------------------------------------------------------------------------
+
+	// public ArrayList<Companion> getCompanions()
+	// {
+	// return new ArrayList<Companion>(companions);
+	// }
+
+	/**
+	 * Adds the companion.
+	 */
+	// public void addCompanion(Companion companion)
+	// {
+	// assert companion != null;
+	// companions.add(companion);
+	// }
+
+	/**
+	 * Removes the companion.
+	 */
+	// public void removeCompanion(Companion companion)
+	// {
+	// companions.remove(companion);
+	// }
+
+}

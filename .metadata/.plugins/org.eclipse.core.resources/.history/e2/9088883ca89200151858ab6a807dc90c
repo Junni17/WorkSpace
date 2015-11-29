@@ -1,0 +1,373 @@
+package service;
+
+import java.time.LocalDate;
+import java.time.Month;
+
+import model.Companion;
+import model.Company;
+import model.Conference;
+import model.Enrollment;
+import model.Excursion;
+import model.Extra;
+import model.Hotel;
+import model.Participant;
+import storage.Storage;
+
+public class Service {
+
+	/**
+	 * Creates a new Conference.<br />
+	 * Requires: name not empty, price > 0, endDate is after startDate
+	 */
+	public static Conference createConference(String name, int price, LocalDate startDate, LocalDate endDate) {
+		assert name != "" && price > 0 && endDate.isAfter(startDate);
+		Conference conference = new Conference(name, price, startDate, endDate);
+		Storage.storeConference(conference);
+		return conference;
+	}
+
+	/**
+	 * Creates a new Excursion.<br />
+	 * Requires: name not empty.
+	 */
+	public static Excursion createExcursion(String name, LocalDate date, int price, Conference conference) {
+		assert name != "";
+
+		Excursion exc = new Excursion(name, date, price);
+		conference.addExcursion(exc);
+		return exc;
+	}
+
+	/**
+	 * Creates a new Hotel.<br />
+	 * Requires: name not empty, priceSingle > 0, priceDouble > 0.
+	 */
+	public static Hotel createHotel(String name, int priceSingle, int priceDouble) {
+		assert name != "";
+		assert priceSingle > 0;
+		assert priceDouble > 0;
+
+		Hotel hotel = new Hotel(name, priceSingle, priceDouble);
+		Storage.storeHotel(hotel);
+		return hotel;
+	}
+
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Creates a new participant.<br />
+	 * Requires: name not empty.
+	 */
+	public static Participant createParticipant(String name, String address, String city, String country,
+			String phone) {
+		assert name != "";
+		Participant participant = new Participant(name, address, city, country, phone);
+		Storage.storeParticipant(participant);
+		return participant;
+	}
+
+	/**
+	 * Deletes the participant.
+	 */
+	public static void deleteParticipant(Participant participant) {
+		Storage.deleteParticipant(participant);
+	}
+
+	// -------------------------------------------------------------------------
+	// Company
+
+	/**
+	 * Creates a new Company.<br />
+	 * Requires: name not empty.
+	 */
+	public static Company createCompany(String name, String phone) {
+		assert name != "";
+
+		Company company = new Company(name, phone);
+		Storage.storeCompany(company);
+		return company;
+	}
+
+	/**
+	 * Sets the participant's company.<br/>
+	 * Note: company may be null.
+	 */
+	public static void setCompanyOfParticipant(Participant participant, Company company) {
+		participant.setCompany(company);
+		company.addParticipant(participant);
+
+	}
+
+	// -------------------------------------------------------------------------
+	// Enrollment
+
+	public static Enrollment createEnrollment(LocalDate dateOfArrival, LocalDate dateOfDeparture,
+			boolean presentingTalk, Participant participant, Conference conference, Hotel hotel) {
+		Enrollment enr = new Enrollment(dateOfArrival, dateOfDeparture, presentingTalk, participant, conference, hotel);
+		participant.addEnrollment(enr);
+		return enr;
+	}
+
+	// -------------------------------------------------------------------------
+	// Extra
+
+	public static Extra createExtra(String name, int price, Hotel hotel) {
+		Extra extra = new Extra(name, price, hotel);
+		return extra;
+	}
+
+	// -------------------------------------------------------------------------
+	// Companion
+
+	public static Companion createCompanion(String name, Enrollment enrollment) {
+		Companion comp = new Companion(name, enrollment);
+		return comp;
+	}
+
+	// -------------------------------------------------------------------------
+
+	public static String getParticipants(Conference conference) {
+		String participants = "";
+		for (int i = 0; i < conference.enrollmentsCount(); i++) {
+			participants += "\n" + conference.getEnrollments().get(i).getParticipant().toString() + "\n";
+		}
+		return participants;
+	}
+
+	public static String getExcursionInfo(Conference conference) {
+		String excursions = "";
+		for (int i = 0; i < conference.getExcursions().size(); i++) {
+			excursions += "\nExcursion: " + conference.getExcursions().get(i).getName() + "\n" + "------------" + "\n";
+			for (int j = 0; j < conference.getExcursions().get(i).getCompanions().size(); j++) {
+				excursions += "Companion: " + conference.getExcursions().get(i).getCompanions().get(j)
+						+ ". Participant: "
+						+ conference.getExcursions().get(i).getCompanions().get(j).getEnrollment().getParticipant()
+						+ "\n";
+			}
+		}
+		return excursions;
+	}
+
+	public static String getHotelsInfo(Conference conference) {
+		String hotels = "";
+		for (int i = 0; i < conference.getHotels().size(); i++) {
+			hotels += "\nHotel: " + conference.getHotels().get(i).getName() + "\n" + "------------" + "\n";
+			for (int j = 0; j < conference.getHotels().get(i).getEnrollments().size(); j++) {
+				hotels += "Participant: " + conference.getHotels().get(i).getEnrollments().get(j).getParticipant();
+				if (conference.getHotels().get(i).getEnrollments().get(j).getCompanion() != null) {
+					hotels += " Companion: " + conference.getHotels().get(i).getEnrollments().get(j).getCompanion();
+				}
+				hotels += "\n";
+			}
+		}
+		return hotels;
+	}
+
+	// -------------------------------------------------------------------------
+
+	public static void initStorage() {
+		Conference conf1 = Service.createConference("Android security", 300, LocalDate.of(2016, 6, 3),
+				LocalDate.of(2016, Month.JUNE, 15));
+		Conference conf2 = Service.createConference("Java Object Language Perspective", 500, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+		Conference conf3 = Service.createConference("Be Mobile!", 450, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+		Conference conf4 = Service.createConference("Do it rather in C++", 320, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+		Conference conf5 = Service.createConference("Advanced Java", 4500, LocalDate.of(2015, 11, 18),
+				LocalDate.of(2015, 11, 20));
+
+		// Excursion exc1 = Service.createExcursion("A trip to the lake",
+		// LocalDate.of(2016, 6, 4),
+		// 300, conf1);
+		// Excursion exc2 = Service.createExcursion("Visit Aros",
+		// LocalDate.of(2016, 6, 5), 300,
+		// conf1);
+		// Excursion exc3 = Service.createExcursion("National-History Museum",
+		// LocalDate.of(2016, 6, 5), 300, conf1);
+		// Excursion exc4 = Service.createExcursion("Downtown Manhatten",
+		// LocalDate.of(2016, 8, 10),
+		// 300, conf2);
+		// Excursion exc5 = Service.createExcursion("World Trade Center
+		// memorial",
+		// LocalDate.of(2016, 8, 8), 300, conf2);
+		// Excursion exc6 = Service.createExcursion("Museum of Modern Art",
+		// LocalDate.of(2016, 8, 11),
+		// 300, conf3);
+		// Excursion exc7 = Service.createExcursion("Paintball",
+		// LocalDate.of(2016, 8, 9), 300, conf4);
+		// Excursion exc8 = Service.createExcursion("Egeskov Castle",
+		// LocalDate.of(2015, 11, 19), 75,
+		// conf5);
+		// Excursion exc9 = Service.createExcursion("Traphholt Museum",
+		// LocalDate.of(2015, 11, 20),
+		// 200, conf5);
+
+		Service.createExcursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300, conf1);
+		Service.createExcursion("Visit Aros", LocalDate.of(2016, 6, 5), 300, conf1);
+		Service.createExcursion("National-History Museum", LocalDate.of(2016, 6, 5), 300, conf1);
+		Service.createExcursion("Downtown Manhatten", LocalDate.of(2016, 8, 10), 300, conf2);
+		Service.createExcursion("World Trade Center memorial", LocalDate.of(2016, 8, 8), 300, conf2);
+		Service.createExcursion("Museum of Modern Art", LocalDate.of(2016, 8, 11), 300, conf3);
+		Service.createExcursion("Paintball", LocalDate.of(2016, 8, 9), 300, conf4);
+		Service.createExcursion("Egeskov Castle", LocalDate.of(2015, 11, 19), 75, conf5);
+		Service.createExcursion("Traphholt Museum", LocalDate.of(2015, 11, 20), 200, conf5);
+
+		Company company1 = Service.createCompany("IBM", "45113245");
+		Company company2 = Service.createCompany("Google", "88125322");
+		Company company3 = Service.createCompany("Microsoft", "1234-88930412");
+		Company company4 = Service.createCompany("Lenovo", "32553211");
+		Company company5 = Service.createCompany("ASUS", "34276845");
+
+		Participant participant1 = Service.createParticipant("Jonas Andersen", "Anholtsgade 15", "Aarhus", "Denmark",
+				"2818 9622");
+		Participant participant2 = Service.createParticipant("Joern Skoett Andersen", "Praestevaenget 12", "Skoerping",
+				"Denmark", "8615 8418");
+		Participant participant3 = Service.createParticipant("Lise Nedergaard", "Praestevaenget 12", "Skoerping",
+				"Denmark", "8615 8418");
+		Participant participant4 = Service.createParticipant("Finn Madson", "Silkeborgvej 30", "Aarhus", "Denmark",
+				"1234 5678");
+		Participant participant5 = Service.createParticipant("Niels Petersen", "Violvej 45", "Copenhagen", "Denmark",
+				"9678 9457");
+		Participant participant6 = Service.createParticipant("Peter Somer", "Thorsgade 2", "Odense", "Denmark",
+				"1678 9098");
+		Participant participant7 = Service.createParticipant("Lone Jensen", "Nytorv 13", "Aalbrg", "Denmark",
+				"3678 9879");
+
+		Hotel hotel1 = Service.createHotel("The White Swan", 1050, 1250);
+		Hotel hotel2 = Service.createHotel("A very big hotel", 1200, 1450);
+		Hotel hotel3 = Service.createHotel("Eat and Sleep Hotel", 800, 900);
+		Hotel hotel4 = Service.createHotel("The NightCrawler", 1000, 1125);
+		Hotel hotel5 = Service.createHotel("Monster's Hotel", 1500, 1850);
+		Hotel hotel6 = Service.createHotel("The White Swan", 1050, 1250);
+		Service.createHotel("Ritz", 3000, 5000);
+
+		Extra extra11 = Service.createExtra("WIFI", 50, hotel1);
+		Service.createExtra("WIFI", 100, hotel2);
+		Service.createExtra("WIFI", 75, hotel3);
+		Service.createExtra("WIFI", 80, hotel4);
+		Service.createExtra("WIFI", 10, hotel5);
+		Service.createExtra("WIFI", 22, hotel6);
+		Service.createExtra("VIP", 100, hotel1);
+		Service.createExtra("VIP", 500, hotel2);
+		Service.createExtra("VIP", 800, hotel3);
+		Service.createExtra("VIP", 49, hotel4);
+		Service.createExtra("VIP", 80, hotel5);
+		Service.createExtra("VIP", 200, hotel6);
+		Service.createExtra("Bathroom", 60, hotel1);
+		Service.createExtra("Bathroom", 120, hotel3);
+		Service.createExtra("Bathroom", 200, hotel5);
+
+		Enrollment enr1 = Service.createEnrollment(LocalDate.of(2016, 6, 3), LocalDate.of(2016, 6, 13), false,
+				participant1, conf1, hotel1);
+		Enrollment enr2 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 12), false,
+				participant2, conf2, hotel2);
+		Enrollment enr3 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 12), false,
+				participant3, conf3, hotel3);
+		Enrollment enr4 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 11), true,
+				participant4, conf4, hotel4);
+		Enrollment enr5 = Service.createEnrollment(LocalDate.of(2016, 6, 3), LocalDate.of(2016, 6, 15), false,
+				participant5, conf1, hotel5);
+		Enrollment enr6 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 12), false,
+				participant6, conf2, hotel6);
+		Enrollment enr7 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 12), true,
+				participant7, conf3, hotel1);
+		Enrollment enr11 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 10), false,
+				participant1, conf4, hotel2);
+		Enrollment enr21 = Service.createEnrollment(LocalDate.of(2016, 6, 3), LocalDate.of(2016, 6, 15), true,
+				participant1, conf1, hotel3);
+		Enrollment enr31 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 12), true,
+				participant2, conf2, hotel4);
+		Enrollment enr41 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 12), false,
+				participant3, conf3, hotel5);
+		Enrollment enr51 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 12), true,
+				participant4, conf4, hotel6);
+		Enrollment enr61 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 12), false,
+				participant5, conf4, null);
+		Enrollment enr71 = Service.createEnrollment(LocalDate.of(2016, 8, 7), LocalDate.of(2016, 8, 9), true,
+				participant6, conf4, null);
+
+		Companion comp1 = Service.createCompanion("Mie Summer", enr1);
+		Companion comp2 = Service.createCompanion("Mie Summer", enr11);
+		Companion comp3 = Service.createCompanion("Jan Madsen", enr2);
+		Companion comp4 = Service.createCompanion("Jan Madsen", enr21);
+		Companion comp5 = Service.createCompanion("Bill Gates", enr3);
+		Companion comp6 = Service.createCompanion("Bill Gates", enr31);
+		Companion comp7 = Service.createCompanion("George Bush", enr4);
+		Companion comp8 = Service.createCompanion("Steve Nixon", enr5);
+		Companion comp9 = Service.createCompanion("Iskandar Great", enr6);
+		Companion comp10 = Service.createCompanion("Joe Black", enr7);
+
+		enr1.setCompanion(comp1);
+		enr11.setCompanion(comp2);
+		enr2.setCompanion(comp3);
+		enr21.setCompanion(comp4);
+		enr3.setCompanion(comp5);
+		enr31.setCompanion(comp6);
+		enr4.setCompanion(comp7);
+		enr5.setCompanion(comp8);
+		enr6.setCompanion(comp9);
+		enr7.setCompanion(comp10);
+
+		participant1.setCompany(company1);
+		participant2.setCompany(company2);
+		participant3.setCompany(company3);
+		participant4.setCompany(company4);
+		participant5.setCompany(company5);
+		participant6.setCompany(company5);
+
+		conf1.addHotel(hotel1); // 1
+		conf1.addHotel(hotel2);
+		conf1.addHotel(hotel3);
+		conf1.addHotel(hotel4);
+		conf1.addHotel(hotel5);
+		conf1.addHotel(hotel6);
+		conf2.addHotel(hotel1); // 2
+		conf2.addHotel(hotel2);
+		conf2.addHotel(hotel3);
+		conf2.addHotel(hotel4);
+		conf2.addHotel(hotel5);
+		conf2.addHotel(hotel6);
+		conf3.addHotel(hotel1); // 3
+		conf3.addHotel(hotel2);
+		conf3.addHotel(hotel3);
+		conf3.addHotel(hotel4);
+		conf3.addHotel(hotel5);
+		conf3.addHotel(hotel6);
+		conf4.addHotel(hotel1); // 4
+		conf4.addHotel(hotel2);
+		conf4.addHotel(hotel3);
+		conf4.addHotel(hotel4);
+		conf4.addHotel(hotel5);
+		conf4.addHotel(hotel6);
+		conf5.addHotel(hotel1); // 5
+		conf5.addHotel(hotel2);
+		conf5.addHotel(hotel3);
+		conf5.addHotel(hotel4);
+		conf5.addHotel(hotel5);
+		conf5.addHotel(hotel6);
+
+		hotel1.addEnrollments(enr1);
+		hotel1.addEnrollments(enr2);
+		hotel1.addEnrollments(enr3);
+		hotel2.addEnrollments(enr11);
+		hotel2.addEnrollments(enr21);
+		hotel2.addEnrollments(enr31);
+		hotel3.addEnrollments(enr4);
+		hotel3.addEnrollments(enr41);
+		hotel4.addEnrollments(enr5);
+		hotel4.addEnrollments(enr51);
+		hotel5.addEnrollments(enr6);
+		hotel5.addEnrollments(enr61);
+		hotel6.addEnrollments(enr7);
+		hotel6.addEnrollments(enr71);
+
+		enr1.addExtra(extra11);
+		enr2.addExtra(extra11);
+		enr3.addExtra(extra11);
+
+		// comp1.addExcursion(exc1);
+		// exc1.addCompanion(comp1);
+	}
+
+}

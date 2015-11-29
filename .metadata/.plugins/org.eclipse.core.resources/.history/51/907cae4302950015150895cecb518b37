@@ -1,0 +1,19 @@
+package exercise6;
+
+public class exercise {
+
+	public static void main(String[] args) {
+	
+
+	}
+	
+	public static boolean repeatedChars(String s, int k){
+		boolean found = false;
+		int i = 0;
+		while (i < s.length()){
+			
+		}
+		return found;
+	}
+
+}

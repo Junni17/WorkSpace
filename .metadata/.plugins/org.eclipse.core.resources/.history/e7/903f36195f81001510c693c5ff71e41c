@@ -1,0 +1,332 @@
+
+package gui;
+
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
+import javafx.stage.Stage;
+import model.YatzyDice;
+
+public class MainApp extends Application {
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
+
+	@Override
+	public void start(Stage stage) {
+		stage.setTitle("Yatzy");
+		GridPane pane = new GridPane();
+		this.initContent(pane);
+
+		Scene scene = new Scene(pane);
+		stage.setScene(scene);
+		stage.setResizable(false);
+		stage.show();
+	}
+
+	// -------------------------------------------------------------------------
+
+	// Shows the face values of the 5 dice.
+	private TextField[] txfValues;
+	// Shows the hold status of the 5 dice.
+	private CheckBox[] chbHolds;
+	// Shows the results previously selected .
+	// For free results (results not set yet), the results
+	// corresponding to the actual face values of the 5 dice are shown.
+	private TextField[] txfResults;
+	// Shows points in sums, bonus and total.
+	private TextField txfSumSame, txfBonus, txfSumOther, txfTotal;
+	// Shows the number of times the dice has been rolled.
+	private Label lblRolled = new Label();
+
+	private Button btnRoll;
+
+	private void initContent(GridPane pane) {
+		// pane.setGridLinesVisible(true);
+		pane.setPadding(new Insets(10));
+		pane.setHgap(10);
+		pane.setVgap(10);
+
+		// ---------------------------------------------------------------------
+
+		GridPane dicePane = new GridPane();
+		pane.add(dicePane, 0, 0);
+		// dicePane.setGridLinesVisible(true);
+		dicePane.setPadding(new Insets(10));
+		dicePane.setHgap(10);
+		dicePane.setVgap(10);
+		dicePane.setStyle("-fx-border-color: black");
+		// dicePane.setStyle("-fx-background-color: green");
+
+		this.txfValues = new TextField[5];
+		this.chbHolds = new CheckBox[5];
+
+		Font font1 = new Font("SansSerif", 50);
+
+		// Setting up the dice-boxes and the checkbox holds
+
+		for (int i = 0; i < 5; i++) {
+			this.txfValues[i] = new TextField();
+			dicePane.add(this.txfValues[i], i, 0);
+			this.txfValues[i].setPrefSize(100, 100);
+			this.txfValues[i].setEditable(false);
+			this.txfValues[i].setFont(font1);
+			this.txfValues[i].setAlignment(Pos.BASELINE_CENTER);
+
+			this.chbHolds[i] = new CheckBox("Hold");
+			this.chbHolds[i].setDisable(true);
+
+			dicePane.add(this.chbHolds[i], i, 1);
+		}
+
+		this.lblRolled.setText("Throw");
+
+		this.btnRoll = new Button(this.lblRolled.getText());
+		dicePane.add(this.btnRoll, 3, 2);
+		this.btnRoll.setPrefSize(100, 40);
+		// GridPane.setMargin(this.btnRoll, new Insets(0, 0, 0, -210));
+		this.btnRoll.setOnAction(event -> this.rollDice());
+
+		// ---------------------------------------------------------------------
+
+		GridPane scorePane = new GridPane();
+		pane.add(scorePane, 0, 1);
+		scorePane.setGridLinesVisible(!true);
+		scorePane.setPadding(new Insets(10));
+		scorePane.setVgap(5);
+		scorePane.setHgap(10);
+		scorePane.setStyle("-fx-border-color: black");
+		// scorePane.setStyle("-fx-background-color: blue");
+		int w = 50; // width of the text fields
+
+		this.txfResults = new TextField[15];
+
+		// From dice 1-6
+
+		for (int i = 0; i < 6; i++) {
+			this.txfResults[i] = new TextField();
+			scorePane.add(this.txfResults[i], 1, i);
+			this.txfResults[i].setEditable(false);
+			this.txfResults[i].setPrefWidth(w);
+			this.txfResults[i].setAlignment(Pos.BASELINE_CENTER);
+			this.txfResults[i].setDisable(true);
+		}
+
+		String[] names = { "1-s", "2-s", "3-s", "4-s", "5-s", "6-s" };
+		for (int i = 0; i < 6; i++) {
+			Label temp = new Label(names[i]);
+			scorePane.add(temp, 0, i);
+		}
+
+		// sum and bonus
+
+		this.txfSumSame = new TextField();
+		scorePane.add(this.txfSumSame, 3, 5);
+		this.txfSumSame.setPrefWidth(w);
+		this.txfSumSame.setEditable(false);
+		this.txfSumSame.setDisable(true);
+		this.txfSumSame.setStyle("-fx-background-color: blue; -fx-text-fill: white");
+		this.txfSumSame.setAlignment(Pos.BASELINE_CENTER);
+
+		this.txfBonus = new TextField();
+		scorePane.add(this.txfBonus, 3, 6);
+		this.txfBonus.setPrefWidth(w);
+		this.txfBonus.setEditable(false);
+		this.txfBonus.setDisable(true);
+		this.txfBonus.setStyle("-fx-background-color: blue; -fx-text-fill: white");
+		this.txfBonus.setAlignment(Pos.BASELINE_CENTER);
+
+		Label sum = new Label("Sum");
+		scorePane.add(sum, 2, 5);
+
+		Label bonus = new Label("Bonus");
+		scorePane.add(bonus, 2, 6);
+
+		// The rest of the dice-points
+
+		for (int i = 6; i < 15; i++) {
+			this.txfResults[i] = new TextField();
+			scorePane.add(this.txfResults[i], 1, i + 1);
+			this.txfResults[i].setEditable(false);
+			this.txfResults[i].setPrefWidth(w);
+			this.txfResults[i].setAlignment(Pos.BASELINE_CENTER);
+			this.txfResults[i].setDisable(true);
+		}
+
+		String[] names2 = { "One Pair", "Two Pairs", "Three-same", "Four-same", "Full House", "Small Str.",
+				"Large Str.", "Chance", "Yatzy" };
+		for (int i = 0; i < 9; i++) {
+			Label temp = new Label(names2[i]);
+			scorePane.add(temp, 0, i + 7);
+		}
+
+		// Other sum and TOTAL
+
+		this.txfSumOther = new TextField();
+		scorePane.add(this.txfSumOther, 3, 15);
+		this.txfSumOther.setPrefWidth(w);
+		this.txfSumOther.setEditable(false);
+		this.txfSumOther.setDisable(true);
+		this.txfSumOther.setStyle("-fx-background-color: blue; -fx-text-fill: white");
+		this.txfSumOther.setAlignment(Pos.BASELINE_CENTER);
+
+		this.txfTotal = new TextField();
+		this.txfTotal.setPrefWidth(w);
+		this.txfTotal.setEditable(false);
+		this.txfTotal.setDisable(true);
+		this.txfTotal.setStyle("-fx-background-color: blue; -fx-text-fill: white");
+		this.txfTotal.setAlignment(Pos.BASELINE_CENTER);
+		scorePane.add(this.txfTotal, 3, 16);
+
+		Label oSum = new Label("Sum");
+		scorePane.add(oSum, 2, 15);
+
+		Label total = new Label("TOTAL");
+		scorePane.add(total, 2, 16);
+
+	}
+
+	// -------------------------------------------------------------------------
+
+	private YatzyDice dice = new YatzyDice();
+
+	private void rollDice() {
+
+		if (this.dice.getThrowCount() == 0) {
+			for (int i = 0; i < 5; i++) {
+				this.chbHolds[i].setDisable(false);
+			}
+		}
+
+		this.dice.throwDice(this.holds());
+		int[] temp = this.dice.getValues();
+		for (int i = 0; i < 5; i++) {
+			this.txfValues[i].setText(Integer.toString(temp[i]));
+		}
+		this.lblRolled.setText("Throw " + this.dice.getThrowCount());
+		this.btnRoll.setText(this.lblRolled.getText());
+
+		// int[] temp2 = this.dice.getResults();
+		// for (int i = 0; i < 15; i++) {
+		//
+		// if (this.txfResults[i].getUserData() == null) {
+		// this.txfResults[i].setText(Integer.toString(temp2[i]));
+		// this.txfResults[i].setDisable(false);
+		//
+		// }
+		// this.txfResults[i].setOnMouseClicked(event ->
+		// this.mouseClicked(event));
+		// }
+
+		if (this.dice.getThrowCount() == 3) {
+			this.btnRoll.disableProperty().set(true);
+			for (int i = 0; i < 5; i++) {
+				this.chbHolds[i].setDisable(true);
+			}
+			int[] temp2 = this.dice.getResults();
+			for (int i = 0; i < 15; i++) {
+
+				if (this.txfResults[i].getUserData() == null) {
+					this.txfResults[i].setText(Integer.toString(temp2[i]));
+					this.txfResults[i].setDisable(false);
+
+				}
+				this.txfResults[i].setOnMouseClicked(event -> this.mouseClicked(event));
+			}
+
+		}
+
+	}
+
+	private boolean[] holds() {
+		boolean[] holds = new boolean[5];
+		for (int i = 0; i < 5; i++) {
+			if (this.chbHolds[i].isSelected()) {
+				holds[i] = true;
+				this.chbHolds[i].setDisable(true);
+			}
+		}
+		return holds;
+	}
+
+	private void mouseClicked(MouseEvent event) {
+		this.dice.resetThrowCount();
+		TextField txf = (TextField) event.getSource();
+		txf.setText(txf.getText());
+		txf.setUserData(true);
+		txf.setDisable(true);
+		txf.setStyle("-fx-background-color:yellow");
+
+		this.getSum();
+		this.getTotal();
+
+		for (int i = 0; i < 15; i++) {
+			this.txfResults[i].setDisable(true);
+			if (this.txfResults[i].getUserData() == null) {
+				this.txfResults[i].clear();
+			}
+		}
+
+		for (int i = 0; i < 5; i++) {
+			this.txfValues[i].clear();
+			this.chbHolds[i].setSelected(false);
+			// this.chbHolds[i].setDisable(false);
+		}
+
+		this.btnRoll.disableProperty().set(false);
+		this.lblRolled.setText("Throw");
+		this.btnRoll.setText(this.lblRolled.getText());
+	}
+
+	private void getSum() {
+		int sum1 = 0;
+		int sum2 = 0;
+
+		for (int i = 0; i < 6; i++) {
+			if (this.txfResults[i].getUserData() != null) {
+				sum1 += Integer.parseInt(this.txfResults[i].getText());
+			}
+			if (sum1 >= 63) {
+				this.txfBonus.setText(Integer.toString(50));
+			}
+		}
+
+		this.txfSumSame.setText(Integer.toString(sum1));
+
+		for (int i = 6; i < 15; i++) {
+			if (this.txfResults[i].getUserData() != null) {
+				sum2 += Integer.parseInt(this.txfResults[i].getText());
+			}
+		}
+
+		this.txfSumOther.setText(Integer.toString(sum2));
+	}
+
+	private void getTotal() {
+		int sum1 = 0;
+		int bonus = 0;
+		int sum2 = 0;
+
+		int total = 0;
+
+		sum1 = Integer.parseInt(this.txfSumSame.getText());
+		sum2 = Integer.parseInt(this.txfSumOther.getText());
+
+		if (!this.txfBonus.getText().equals("")) {
+			bonus = Integer.parseInt(this.txfBonus.getText());
+		}
+
+		total = sum1 + bonus + sum2;
+
+		this.txfTotal.setText(Integer.toString(total));
+	}
+
+}

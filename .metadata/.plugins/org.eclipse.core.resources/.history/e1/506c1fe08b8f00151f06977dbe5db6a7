@@ -1,0 +1,224 @@
+package gui;
+
+import java.util.Optional;
+
+import javafx.beans.value.ChangeListener;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.geometry.VPos;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.stage.Stage;
+import model.Company;
+import model.Employee;
+import service.Service;
+import storage.Storage;
+
+public class CompanyPane extends GridPane {
+	private Controller controller = new Controller();
+
+	public CompanyPane() {
+		this.initContent()
+	}
+
+	// -------------------------------------------------------------------------
+
+	private TextField txfName, txfHours;
+	private TextArea txaEmps;
+	private ListView<Company> lvwCompanies;
+
+	private void initContent() {
+		this.setPadding(new Insets(20));
+		this.setHgap(20);
+		this.setVgap(10);
+		this.setGridLinesVisible(false);
+
+		Label lblComp = new Label("Companies");
+		this.add(lblComp, 0, 0);
+
+		this.lvwCompanies = new ListView<>();
+		this.add(this.lvwCompanies, 0, 1, 1, 3);
+		this.lvwCompanies.setPrefWidth(200);
+		this.lvwCompanies.setPrefHeight(200);
+		this.lvwCompanies.getItems().setAll(Storage.getAllCompanies());
+
+		ChangeListener<Company> listener = (ov, oldCompny, newCompany) -> this.controller.selectedCompanyChanged();
+		this.lvwCompanies.getSelectionModel().selectedItemProperty().addListener(listener);
+
+		Label lblName = new Label("Name:");
+		this.add(lblName, 1, 1);
+
+		this.txfName = new TextField();
+		this.add(this.txfName, 2, 1);
+		this.txfName.setEditable(false);
+
+		Label lblHours = new Label("Weekly Hours:");
+		this.add(lblHours, 1, 2);
+
+		this.txfHours = new TextField();
+		this.add(this.txfHours, 2, 2);
+		this.txfHours.setEditable(false);
+
+		Label lblEmps = new Label("Employees:");
+		this.add(lblEmps, 1, 3);
+		GridPane.setValignment(lblEmps, VPos.BASELINE);
+		lblEmps.setPadding(new Insets(4, 0, 4, 0));
+
+		this.txaEmps = new TextArea();
+		this.add(this.txaEmps, 2, 3);
+		this.txaEmps.setPrefWidth(200);
+		this.txaEmps.setPrefHeight(100);
+		this.txaEmps.setEditable(false);
+
+		HBox hbxButtons = new HBox(40);
+		this.add(hbxButtons, 0, 4, 3, 1);
+		hbxButtons.setPadding(new Insets(10, 0, 0, 0));
+		hbxButtons.setAlignment(Pos.BASELINE_CENTER);
+
+		Button btnCreate = new Button("Create");
+		hbxButtons.getChildren().add(btnCreate);
+		btnCreate.setOnAction(event -> this.controller.createAction());
+
+		Button btnUpdate = new Button("Update");
+		hbxButtons.getChildren().add(btnUpdate);
+		btnUpdate.setOnAction(event -> this.controller.updateAction());
+
+		Button btnDelete = new Button("Delete");
+		hbxButtons.getChildren().add(btnDelete);
+		btnDelete.setOnAction(event -> this.controller.deleteAction());
+
+		if (this.lvwCompanies.getItems().size() > 0) {
+			this.lvwCompanies.getSelectionModel().select(0);
+		}
+	}
+
+	/**
+	 * Updates the content of controls in this pane.
+	 */
+	public void updateControls() {
+		this.controller.updateControls();
+	}
+
+	// -------------------------------------------------------------------------
+
+	private class Controller {
+		private CompanyDialog createDialog, updateDialog;
+		private Alert deleteAlert;
+
+		public void updateControls() {
+			Company company = CompanyPane.this.lvwCompanies.getSelectionModel().getSelectedItem();
+			if (company != null) {
+				CompanyPane.this.txfName.setText(company.getName());
+				CompanyPane.this.txfHours.setText("" + company.getHours());
+				StringBuilder sb = new StringBuilder();
+				for (Employee emp : company.getEmployees()) {
+					sb.append(emp + "\n");
+				}
+				CompanyPane.this.txaEmps.setText(sb.toString());
+			} else {
+				CompanyPane.this.txfName.clear();
+				CompanyPane.this.txfHours.clear();
+				CompanyPane.this.txaEmps.clear();
+			}
+		}
+
+		// --------------------------------------------------------------------
+
+		// Create button action.
+		public void createAction() {
+			if (this.createDialog == null) {
+				this.createDialog = new CompanyDialog("Create Company");
+				Stage stage = (Stage) CompanyPane.this.lvwCompanies.getScene().getWindow();
+				this.createDialog.initOwner(stage);
+			}
+
+			this.createDialog.setCompany(null);
+			this.createDialog.showAndWait();
+			// ... wait for the dialog to close
+
+			boolean isCreated = this.createDialog.getResult();
+			if (isCreated) {
+				CompanyPane.this.lvwCompanies.getItems().setAll(Storage.getAllCompanies());
+				int index = CompanyPane.this.lvwCompanies.getItems().size() - 1;
+				CompanyPane.this.lvwCompanies.getSelectionModel().select(index);
+			}
+		}
+
+		// Update button action
+		public void updateAction() {
+			Company company = CompanyPane.this.lvwCompanies.getSelectionModel().getSelectedItem();
+			if (company == null) {
+				return;
+			}
+
+			if (this.updateDialog == null) {
+				this.updateDialog = new CompanyDialog("Update Company");
+				Stage stage = (Stage) CompanyPane.this.lvwCompanies.getScene().getWindow();
+				this.updateDialog.initOwner(stage);
+			}
+
+			this.updateDialog.setCompany(company);
+			this.updateDialog.showAndWait();
+			// ... wait for the dialog to close
+
+			boolean isUpdated = this.updateDialog.getResult();
+			if (isUpdated) {
+				int selectIndex = CompanyPane.this.lvwCompanies.getSelectionModel().getSelectedIndex();
+				CompanyPane.this.lvwCompanies.getItems().setAll(Storage.getAllCompanies());
+				CompanyPane.this.lvwCompanies.getSelectionModel().select(selectIndex);
+			}
+		}
+
+		// Delete button action
+		public void deleteAction() {
+			Company company = CompanyPane.this.lvwCompanies.getSelectionModel().getSelectedItem();
+			if (company == null) {
+				return;
+			}
+
+			if (company.employeesCount() == 0) {
+				if (this.deleteAlert == null) {
+					this.deleteAlert = new Alert(AlertType.CONFIRMATION);
+					this.deleteAlert.setTitle("Confirmation");
+					this.deleteAlert.setHeaderText("Delete the company?");
+					this.deleteAlert.setContentText("Deletion can't be undone");
+					Stage stage = (Stage) CompanyPane.this.lvwCompanies.getScene().getWindow();
+					this.deleteAlert.initOwner(stage);
+				}
+
+				Optional<ButtonType> result = this.deleteAlert.showAndWait();
+				// ... wait for the dialog to close
+
+				if (result.isPresent() && result.get() == ButtonType.OK) {
+					Service.deleteCompany(company);
+					CompanyPane.this.lvwCompanies.getItems().setAll(Storage.getAllCompanies());
+					this.updateControls();
+				}
+			} else {
+				Alert dialog = new Alert(AlertType.ERROR);
+				dialog.setTitle("Error");
+				dialog.setHeaderText("Company not deleted");
+				dialog.setContentText("Can't delete a company that has employees");
+				Stage stage = (Stage) CompanyPane.this.lvwCompanies.getScene().getWindow();
+				dialog.initOwner(stage);
+
+				dialog.showAndWait();
+				// ... wait for the dialog to close
+			}
+		}
+
+		// Selected item in lvwCompanies changed
+		public void selectedCompanyChanged() {
+			this.updateControls();
+		}
+	}
+
+}

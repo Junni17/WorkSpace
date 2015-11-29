@@ -1,9 +1,0 @@
-package whileReading;
-
-public class SwitchingTheLastHalfWithTheFirst {
-
-	public static void main(String[] args) {
-
-	}
-
-}

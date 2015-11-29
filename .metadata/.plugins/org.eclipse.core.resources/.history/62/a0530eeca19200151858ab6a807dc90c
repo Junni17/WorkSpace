@@ -1,0 +1,50 @@
+package gui;
+
+import javafx.geometry.Insets;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.GridPane;
+import model.Enrollment;
+import storage.Storage;
+
+public class ParticipantInfoWindow extends GridPane {
+
+	public ParticipantInfoWindow() {
+		this.initContent();
+	}
+
+	// -------------------------------------------------------------------------
+
+	private ListView<Enrollment> enrollments;
+	private TextField name;
+
+	private void initContent() {
+		this.setPadding(new Insets(20));
+		this.setHgap(20);
+		this.setVgap(10);
+		this.setGridLinesVisible(false);
+
+		Label lblComp = new Label("Participant:");
+		this.add(lblComp, 0, 0);
+
+		this.name = new TextField();
+		this.add(this.name, 0, 1);
+
+		this.enrollments = new ListView<>();
+		this.add(this.enrollments, 0, 2);
+		this.enrollments.setPrefWidth(300);
+		this.enrollments.setPrefHeight(300);
+
+
+		Button btnAdd = new Button("Close");
+		btnAdd.setPrefWidth(60);
+		this.add(btnAdd, 0, 3);
+
+		if (this.participants.getItems().size() > 0) {
+			this.participants.getSelectionModel().select(0);
+		}
+	}
+
+}

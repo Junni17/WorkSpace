@@ -1,0 +1,145 @@
+package model;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+public class Conference {
+
+	private String name;
+	private int price;
+	private LocalDate startDate;
+	private LocalDate endDate;
+
+	// link to Hotel class (--> 0..*)
+	private ArrayList<Hotel> hotels = new ArrayList<>();
+
+	// link to Enrollment class (--> 0..*)
+	private ArrayList<Enrollment> enrollments = new ArrayList<>();
+
+	// link to Excursion class (--> 0..*)
+	private ArrayList<Excursion> excursions = new ArrayList<>();
+
+	public Conference(String name, int price, LocalDate startDate, LocalDate endDate) {
+		this.name = name;
+		this.price = price;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public LocalDate getStartDate() {
+		return this.startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return this.endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	/**
+	 * Returns a list of the excursions.
+	 */
+	public ArrayList<Excursion> getExcursions() {
+		return this.excursions;
+	}
+
+	/**
+	 * Adds an excursion to the conference.
+	 */
+	public void addExcursion(Excursion excursion) {
+		assert excursion != null;
+		this.excursions.add(excursion);
+	}
+
+	/**
+	 * Removes an excursion from the conference.
+	 */
+	public void removeExcursion(Excursion excursion) {
+		assert excursion != null;
+		this.excursions.remove(excursion);
+	}
+
+	// -----------------------------------------------------------------------------
+
+	/**
+	 * Returns a list of hotels.
+	 */
+	public ArrayList<Hotel> getHotels() {
+		return new ArrayList<Hotel>(this.hotels);
+	}
+
+	/**
+	 * Adds the hotel.
+	 */
+	public void addHotel(Hotel hotel) {
+		assert hotel != null;
+		this.hotels.add(hotel);
+	}
+
+	/**
+	 * Removes the hotel.
+	 */
+	public void removeHotel(Hotel hotel) {
+		this.hotels.remove(hotel);
+	}
+
+	// -----------------------------------------------------------------------------
+
+	/**
+	 * Returns a list of enrollments.
+	 */
+	public ArrayList<Enrollment> getEnrollments() {
+		return new ArrayList<Enrollment>(this.enrollments);
+	}
+
+	/**
+	 * Adds the enrollment.
+	 */
+	public void addEnrollment(Enrollment enrollment) {
+		assert enrollment != null;
+		this.enrollments.add(enrollment);
+	}
+
+	/**
+	 * Removes the enrollment.
+	 */
+	public void removeEnrollment(Enrollment enrollment) {
+		this.enrollments.remove(enrollment);
+	}
+
+	/**
+	 * Returns the count of enrollments in this conference.
+	 */
+	public int enrollmentsCount() {
+		return this.enrollments.size();
+	}
+
+	@Override
+	public String toString() {
+		String temp = this.name + ", price: " + this.price + ", dates: " + this.startDate + " till " + this.endDate;
+		return temp;
+	}
+
+}

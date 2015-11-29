@@ -1,0 +1,16 @@
+package gui;
+
+import java.time.LocalDate;
+
+import model.Conference;
+import service.Service;
+
+public class Tester {
+
+	public static void main(String[] args) {
+
+		Conference conf1 = Service.createConference(Bla, 300, LocalDate.of(2016, 1, 2), LocalDate.of(2016, 1, 4));
+
+	}
+
+}

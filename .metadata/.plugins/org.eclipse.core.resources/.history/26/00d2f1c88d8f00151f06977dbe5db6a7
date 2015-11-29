@@ -1,0 +1,22 @@
+package gui;
+
+import java.time.LocalDate;
+
+import model.Conference;
+import model.Excursion;
+import service.Service;
+
+public class Tester {
+
+	public static void main(String[] args) {
+
+		Conference conf1 = Service.createConference("Bla", 300, LocalDate.of(2016, 1, 2), LocalDate.of(2016, 1, 4));
+		Excursion exc1 = new Excursion("Derp", LocalDate.of(2016, 1, 3), 300);
+
+		Service.setConferenceOfExcursion(exc1, conf1);
+		
+		System.out.println(conf1.getExcursions());
+
+	}
+
+}

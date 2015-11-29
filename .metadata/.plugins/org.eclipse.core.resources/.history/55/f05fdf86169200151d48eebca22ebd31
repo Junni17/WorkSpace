@@ -1,0 +1,203 @@
+package service;
+
+import java.time.LocalDate;
+import java.time.Month;
+
+import model.Companion;
+import model.Company;
+import model.Conference;
+import model.Enrollment;
+import model.Excursion;
+import model.Extra;
+import model.Hotel;
+import model.Participant;
+import storage.Storage;
+
+public class Service {
+
+	/**
+	 * Creates a new Conference.<br />
+	 * Requires: name not empty, price > 0, endDate is after startDate
+	 */
+	public static Conference createConference(String name, int price, LocalDate startDate, LocalDate endDate) {
+		assert name != "" && price > 0 && endDate.isAfter(startDate);
+		Conference conference = new Conference(name, price, startDate, endDate);
+		Storage.storeConference(conference);
+		return conference;
+	}
+
+	/**
+	 * Connects an excursion to a conference. <br />
+	 * Requires: excursion not null, conference not null
+	 */
+	public static void setConferenceOfExcursion(Excursion excursion, Conference conference) {
+		assert excursion != null && conference != null;
+		conference.addExcursion(excursion);
+	}
+
+	/**
+	 * Creates a new Excursion.<br />
+	 * Requires: name not empty.
+	 */
+	public static Excursion createExcursion(String name, LocalDate date, int price, Conference conference) {
+		assert name != "";
+
+		Excursion exc = new Excursion(name, date, price);
+		conference.addExcursion(exc);
+		return exc;
+	}
+
+	// -------------------------------------------------------------------------
+
+	/**
+	 * Creates a new participant.<br />
+	 * Requires: name not empty.
+	 */
+	public static Participant createParticipant(String name, String address, String city, String country,
+			String phone) {
+		assert name != "";
+		Participant participant = new Participant(name, address, city, country, phone);
+		Storage.storeParticipant(participant);
+		return participant;
+	}
+
+	/**
+	 * Deletes the participant.
+	 */
+	public static void deleteParticipant(Participant participant) {
+		Storage.deleteParticipant(participant);
+	}
+
+	// -------------------------------------------------------------------------
+	// Company
+
+	/**
+	 * Creates a new Company.<br />
+	 * Requires: name not empty.
+	 */
+	public static Company createCompany(String name, String phone) {
+		assert name != "";
+
+		Company company = new Company(name, phone);
+		Storage.storeCompany(company);
+		return company;
+	}
+
+	/**
+	 * Sets the participant's company.<br/>
+	 * Note: company may be null.
+	 */
+	public static void setCompanyOfParticipant(Participant participant, Company company) {
+		participant.setCompany(company);
+		company.addParticipant(participant);
+
+	}
+
+	// -------------------------------------------------------------------------
+	// Enrollment
+
+	public static Enrollment createEnrollment(LocalDate dateOfArrival, LocalDate dateOfDeparture,
+			boolean presentingTalk, Participant participant, Conference conference, Hotel hotel) {
+		Enrollment enr = new Enrollment(dateOfArrival, dateOfDeparture, presentingTalk, participant, conference, hotel);
+		return enr;
+	}
+
+	// -------------------------------------------------------------------------
+	// Extra
+
+	public static Extra createExtra(String name, int price, Hotel hotel) {
+		Extra extra = new Extra(name, price, hotel);
+		return extra;
+	}
+
+	// -------------------------------------------------------------------------
+	// Companion
+
+	public static Companion createCompanion(String name, Enrollment enrollment) {
+		Companion comp = new Companion(name, enrollment);
+		return comp;
+	}
+
+	// -------------------------------------------------------------------------
+
+	public static String getParticipants(Conference conference) {
+		String participants = "Participants: \n";
+		for (int i = 0; i < conference.enrollmentsCount(); i++) {
+			participants += conference.getEnrollments().get(i).getParticipant().toString() + "\n";
+		}
+		return participants;
+	}
+
+	public static String getExcursionInfo(Conference conference) {
+		String excursions = "Excursions: \n";
+		for (int i = 0; i < conference.getExcursions().size(); i++) {
+			excursions += "\nExcursion: " + conference.getExcursions().get(i).getName() + "\n" + "------------" + "\n";
+			for (int j = 0; j < conference.getExcursions().get(i).getCompanions().size(); j++) {
+				excursions += "Companion: " + conference.getExcursions().get(i).getCompanions().get(j)
+						+ ". Participant: "
+						+ conference.getExcursions().get(i).getCompanions().get(j).getEnrollment().getParticipant()
+						+ "\n";
+			}
+		}
+		return excursions;
+	}
+
+	public static String getHotelsInfo(Conference conference) {
+		String hotels = "Hotels: \n";
+		for (int i = 0; i < conference.getHotels().size(); i++) {
+			hotels += "\nHotel: " + conference.getHotels().get(i).getName() + "\n" + "------------" + "\n";
+			for (int j = 0; j < conference.getHotels().get(i).getEnrollments().size(); j++) {
+				hotels += "Participant: " + conference.getHotels().get(i).getEnrollments().get(j).getParticipant();
+				if (conference.getHotels().get(i).getEnrollments().get(j).getCompanion() != null) {
+					hotels += " Companion: " + conference.getHotels().get(i).getEnrollments().get(j).getCompanion();
+				}
+				hotels += "\n";
+			}
+		}
+		return hotels;
+	}
+
+	// -------------------------------------------------------------------------
+
+	public static void initStorage() {
+		Conference conf1 = Service.createConference("Android security", 300, LocalDate.of(2016, 6, 3),
+				LocalDate.of(2016, Month.JUNE, 15));
+		Conference conf2 = Service.createConference("Java Object Language Perspective", 500, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+		Conference conf3 = Service.createConference("Be Mobile!", 450, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+		Conference conf4 = Service.createConference("Do it rather in C++", 320, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+
+		Excursion exc1 = Service.createExcursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300, conf1);
+		Excursion exc2 = Service.createExcursion("Visit Aros", LocalDate.of(2016, 6, 5), 300, conf1);
+		Excursion exc1 = Service.createExcursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300, conf1);
+		Excursion exc1 = Service.createExcursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300, conf1);
+		Excursion exc1 = Service.createExcursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300, conf1);
+		Excursion exc1 = Service.createExcursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300, conf1);
+		Excursion exc1 = Service.createExcursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300, conf1);
+		Excursion exc1 = Service.createExcursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300, conf1);
+
+		Excursion exc1 = new Excursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300);
+		Excursion exc2 = new Excursion("Visit Aros", LocalDate.of(2016, 6, 5), 300);
+		Excursion exc3 = new Excursion("National-History Museum", LocalDate.of(2016, 6, 5), 300);
+		Excursion exc4 = new Excursion("Downtown Manhatten", LocalDate.of(2016, 8, 10), 300);
+		Excursion exc5 = new Excursion("World Trade Center memorial", LocalDate.of(2016, 8, 8), 300);
+		Excursion exc6 = new Excursion("Museum of Modern Art", LocalDate.of(2016, 8, 11), 300);
+		Excursion exc7 = new Excursion("Paintball", LocalDate.of(2016, 8, 9), 300);
+
+		Service.setConferenceOfExcursion(exc1, conf1);
+		Service.setConferenceOfExcursion(exc2, conf1);
+		Service.setConferenceOfExcursion(exc3, conf1);
+		Service.setConferenceOfExcursion(exc4, conf2);
+		Service.setConferenceOfExcursion(exc5, conf2);
+		Service.setConferenceOfExcursion(exc6, conf3);
+		Service.setConferenceOfExcursion(exc7, conf4);
+
+		Company company1 = Service.createCompany("IBM", "45113245");
+		Company company2 = Service.createCompany("Google", "88125322");
+		Company company3 = Service.createCompany("Microsoft", "1234-88930412");
+		Company company4 = Service.createCompany("Lenovo", "32553211");
+	}
+
+}

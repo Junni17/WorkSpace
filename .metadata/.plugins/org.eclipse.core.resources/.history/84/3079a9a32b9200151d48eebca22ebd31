@@ -1,0 +1,112 @@
+package model;
+
+import java.util.ArrayList;
+
+public class Participant {
+	private String name;
+	private String address;
+	private String city;
+	private String country;
+	private String phone;
+
+	// link to company class (--> 0..1)
+	private Company company;
+
+	// link to Enrollment class (--> 0..*)
+	private ArrayList<Enrollment> enrollments = new ArrayList<>();
+
+	public Participant(String name, String address, String city, String country, String phone) {
+		this.name = name;
+		this.address = address;
+		this.city = city;
+		this.country = country;
+		this.phone = phone;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getAddress() {
+		return this.address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getCity() {
+		return this.city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public String getCountry() {
+		return this.country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getPhone() {
+		return this.phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	// -----------------------------------------------------------------------------
+
+	/**
+	 * Returns the company of this participant.<br/>
+	 * Returns null, if this participant does not have a company.
+	 */
+	public Company getCompany() {
+		return this.company;
+	}
+
+	/**
+	 * Sets the company of this participant.<br/>
+	 * Note: company may be null.
+	 */
+	public void setCompany(Company company) {
+		this.company = company;
+	}
+
+	// -----------------------------------------------------------------------------
+
+	/**
+	 * Returns a list of this participant's enrollments.
+	 */
+	public ArrayList<Enrollment> getEnrollments() {
+		return new ArrayList<Enrollment>(this.enrollments);
+	}
+
+	/**
+	 * Adds the enrollment.
+	 */
+	public void addEnrollment(Enrollment enrollment) {
+		assert enrollment != null;
+		this.enrollments.add(enrollment);
+	}
+
+	/**
+	 * Removes the enrollment.
+	 */
+	public void removeEnrollment(Enrollment enrollment) {
+		this.enrollments.remove(enrollment);
+	}
+
+	@Override
+	public String toString() {
+		return "Name: " + this.name + " Address: " + this.address;
+	}
+}

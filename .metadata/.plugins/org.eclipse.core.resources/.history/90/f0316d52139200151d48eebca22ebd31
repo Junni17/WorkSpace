@@ -1,0 +1,90 @@
+package gui;
+
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import model.Company;
+
+public class ParticipantAdministration extends Stage {
+
+	public ParticipantAdministration(Stage owner) {
+		this.initOwner(owner);
+		this.initModality(Modality.APPLICATION_MODAL);
+		this.setResizable(false);
+
+		this.setTitle("Create Conference");
+		GridPane pane = new GridPane();
+		this.initControls(pane);
+
+		Scene scene = new Scene(pane);
+		this.setScene(scene);
+	}
+
+	private TextField txfname, txfcountry, txfcity, txfadress, txfphone;
+	private ComboBox<Company> cmbCompanies;
+	private CheckBox chbCompany;
+
+	private void initControls(GridPane pane) {
+		pane.setPadding(new Insets(20));
+		pane.setHgap(20);
+		pane.setVgap(10);
+		pane.setGridLinesVisible(false);
+
+		Label lblname = new Label("Name:");
+		Label lblcountry = new Label("Country:");
+		Label lblcity = new Label("City:");
+		Label lbladress = new Label("Address:");
+		Label lblphone = new Label("Phone:");
+
+		pane.add(lblname, 0, 0);
+		pane.add(lblcountry, 0, 1);
+		pane.add(lblcity, 0, 2);
+		pane.add(lbladress, 0, 3);
+		pane.add(lblphone, 0, 4);
+
+		this.txfname = new TextField();
+		pane.add(this.txfname, 1, 0);
+
+		this.txfcountry = new TextField();
+		pane.add(this.txfcountry, 1, 1);
+
+		this.txfcity = new TextField();
+		pane.add(this.txfcity, 1, 2);
+
+		this.txfadress = new TextField();
+		pane.add(this.txfadress, 1, 3);
+
+		this.txfphone = new TextField();
+		pane.add(this.txfphone, 1, 4);
+
+		// -----------------------------------------------------------------------------------------
+
+		this.chbCompany = new CheckBox("Company:");
+		pane.add(this.chbCompany, 0, 5);
+
+		this.cmbCompanies = new ComboBox<Company>();
+		pane.add(this.cmbCompanies, 1, 5);
+		this.cmbCompanies.setDisable(true);
+
+	}
+
+	private Controller controller = new Controller();
+
+	private class Controller {
+
+		private void updateControlls(MouseEvent event) {
+			if (ParticipantAdministration.this.chbCompany.isSelected()) {
+
+			}
+		}
+
+	}
+
+}

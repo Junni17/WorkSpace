@@ -1,0 +1,40 @@
+package storage;
+
+import java.util.ArrayList;
+
+import model.Conference;
+import model.Excursion;
+
+public class Storage {
+
+	private static ArrayList<Conference> conferences = new ArrayList<>();
+	private static ArrayList<Excursion> excursions = new ArrayList<>();
+
+	public static ArrayList<Conference> getAllConferences() {
+		return new ArrayList<>(conferences);
+	}
+
+	public static void storeConference(Conference conference) {
+		conferences.add(conference);
+	}
+
+	public static ArrayList<Excursion> getAllExcursions() {
+		return new ArrayList<>(excursions);
+	}
+
+	public static void storeExcursion(Excursion excursion) {
+		excursions.add(excursion);
+	}
+	
+	public static initStorage(){
+	  Service.createConference("Android security", 300, LocalDate.of(2016, 6, 3),
+              LocalDate.of(2016, Month.JUNE, 15));
+      Service.createConference("Java Object Language Perspective", 500, LocalDate.of(2016, 8, 7),
+              LocalDate.of(2016, Month.AUGUST, 12));
+      Service.createConference("Be Mobile!", 450, LocalDate.of(2016, 8, 7),
+              LocalDate.of(2016, Month.AUGUST, 12));
+      Service.createConference("Do it rather in C++", 320, LocalDate.of(2016, 8, 7),
+              LocalDate.of(2016, Month.AUGUST, 12));
+	}
+
+}

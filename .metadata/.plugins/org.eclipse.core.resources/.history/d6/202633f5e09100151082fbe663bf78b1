@@ -1,0 +1,59 @@
+package service;
+
+import java.time.LocalDate;
+import java.time.Month;
+
+import model.Conference;
+import model.Excursion;
+import storage.Storage;
+
+public class Service {
+
+	/**
+	 * Creates a new Conference.<br />
+	 * Requires: name not empty, price > 0, endDate is after startDate
+	 */
+	public static Conference createConference(String name, int price, LocalDate startDate, LocalDate endDate) {
+		assert name != "" && price > 0 && endDate.isAfter(startDate);
+		Conference conference = new Conference(name, price, startDate, endDate);
+		Storage.storeConference(conference);
+		return conference;
+	}
+
+	/**
+	 * Connects an excursion to a conference. <br />
+	 * Requires: excursion not null, conference not null
+	 */
+	public static void setConferenceOfExcursion(Excursion excursion, Conference conference) {
+		assert excursion != null && conference != null;
+		conference.addExcursion(excursion);
+	}
+
+	public static void initStorage() {
+		Conference conf1 = Service.createConference("Android security", 300, LocalDate.of(2016, 6, 3),
+				LocalDate.of(2016, Month.JUNE, 15));
+		Conference conf2 = Service.createConference("Java Object Language Perspective", 500, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+		Conference conf3 = Service.createConference("Be Mobile!", 450, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+		Conference conf4 = Service.createConference("Do it rather in C++", 320, LocalDate.of(2016, 8, 7),
+				LocalDate.of(2016, Month.AUGUST, 12));
+
+		Excursion exc1 = new Excursion("A trip to the lake", LocalDate.of(2016, 6, 4), 300);
+		Excursion exc2 = new Excursion("Visit Aros", LocalDate.of(2016, 6, 5), 300);
+		Excursion exc3 = new Excursion("National-History Museum", LocalDate.of(2016, 6, 5), 300);
+		Excursion exc4 = new Excursion("Downtown Manhatten", LocalDate.of(2016, 8, 10), 300);
+		Excursion exc5 = new Excursion("World Trade Center memorial", LocalDate.of(2016, 8, 8), 300);
+		Excursion exc6 = new Excursion("Museum of Modern Art", LocalDate.of(2016, 8, 11), 300);
+		Excursion exc7 = new Excursion("Paintball", LocalDate.of(2016, 8, 9), 300);
+
+		Service.setConferenceOfExcursion(exc1, conf1);
+		Service.setConferenceOfExcursion(exc2, conf1);
+		Service.setConferenceOfExcursion(exc3, conf1);
+		Service.setConferenceOfExcursion(exc4, conf2);
+		Service.setConferenceOfExcursion(exc5, conf2);
+		Service.setConferenceOfExcursion(exc6, conf3);
+		Service.setConferenceOfExcursion(exc7, conf4);
+	}
+
+}

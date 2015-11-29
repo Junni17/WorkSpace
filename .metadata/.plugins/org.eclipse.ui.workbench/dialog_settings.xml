@@ -30,14 +30,29 @@
 		</list>
 	</section>
 	<section name="ImportExportAction">
+		<item value="org.eclipse.jdt.internal.ui.jarpackager.JarPackageWizard" key="ImportExportPage.STORE_SELECTED_EXPORT_WIZARD_ID"/>
 		<item value="org.eclipse.ui.wizards.import.ZipFile" key="ImportExportPage.STORE_SELECTED_IMPORT_WIZARD_ID"/>
 		<list key="ImportExportPage.STORE_EXPANDED_IMPORT_CATEGORIES">
 			<item value="org.eclipse.ui.Basic"/>
+		</list>
+		<list key="ImportExportPage.STORE_EXPANDED_EXPORT_CATEGORIES">
+			<item value="org.eclipse.jdt.ui.Java"/>
 		</list>
 	</section>
 	<section name="ZipFileImportWizard">
 		<item value="false" key="WizardZipFileResourceImportPage1.STORE_OVERWRITE_EXISTING_RESOURCES_ID"/>
 		<list key="WizardZipFileResourceImportPage1.STORE_SOURCE_NAMES_ID">
+			<item value="C:\Users\Jonas\Downloads\Jonas-Lukas-MarekL.jar"/>
+			<item value="C:\Users\Jonas\Downloads\SAS-Up.jar"/>
+			<item value="C:\Users\Jonas\Desktop\2015-11-23-CAS.jar"/>
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\Architecture1stSem.jar"/>
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\YatzyStudent.jar"/>
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\Flight.jar"/>
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\DemoSpecifications.jar"/>
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\DemoDates.jar"/>
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\DemoDialogsNew.jar"/>
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\DemoDialogs.jar"/>
+			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\GuiDemoes2.jar"/>
 			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\GuiDemoes.jar"/>
 			<item value="C:\Users\Jonas\Downloads\InheritenceExample.jar"/>
 			<item value="C:\Users\Jonas\Downloads\Exercises PRO1\Ex2.jar"/>
@@ -47,9 +62,6 @@
 			<item value="C:\Users\Jonas\Downloads\Project1.jar"/>
 			<item value="C:\Users\Jonas\Desktop\Loops.jar"/>
 			<item value="C:\Users\Jonas N A\Desktop\Child.jar"/>
-			<item value="C:\Users\Jonas N A\Desktop\Die.jar"/>
-			<item value="C:\Users\Jonas N A\Desktop\Eaaaa\2nd day\cars.jar"/>
-			<item value="C:\Users\Jonas N A\Desktop\Eaaaa\2nd day\shapes.jar"/>
 		</list>
 	</section>
 	<section name="FileSystemImportWizard">

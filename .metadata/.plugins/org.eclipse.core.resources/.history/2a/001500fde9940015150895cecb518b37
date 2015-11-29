@@ -1,0 +1,138 @@
+package exercise1;
+
+public class exercise {
+
+	public static void main(String[] args) {
+
+		// exercise 1
+
+		int[] numbers = { 2, 2, 4, 6, 7, 8, 10, 11, 12 };
+
+		boolean isFound = exercise.containsUneven(numbers);
+
+		System.out.println("Exercise 1: Does numbers contain an uneven number: " + isFound);
+
+		System.out.println();
+
+		// exercise 2
+
+		int[] numbers2 = { 7, 56, 34, 3, 7, 14, 13, 4 };
+
+		System.out.println("Exercise 2: Which number between 10 and 15 does numbers2 contain: "
+				+ exercise.containsBetweenTenAndFifteen(numbers2));
+
+		System.out.println();
+
+		// exercise 3
+
+		int[] noAdjacent = { 7, 9, 13, 7, 9, 13 };
+		int[] adjacent = { 7, 9, 13, 13, 9, 7 };
+
+		System.out.println(
+				"Exercise 3: Does noAdjacent contain adjacent numbers: " + exercise.adjacentNumbers(noAdjacent));
+		System.out.println("Exercise 3: Does adjacent contain adjacent numbers: " + exercise.adjacentNumbers(adjacent));
+		System.out
+				.println("Exercise 3: Does the same appear once in adjacent: " + exercise.adjacentAmount(adjacent, 1));
+
+	}
+
+	/**
+	 * Exercise 1 <br/>
+	 * Returns true if the array contains an uneven number
+	 */
+	public static boolean containsUneven(int[] array) {
+		boolean isFound = false;
+		int i = 0;
+		while (!isFound && i < array.length) {
+			if (array[i] % 2 != 0) {
+				isFound = true;
+			}
+			i++;
+		}
+		return isFound;
+	}
+
+	/**
+	 * Exercise 2 <br/>
+	 * Returns the first number found in the array in interval [10;15] <br/>
+	 * If no number is found returns -1
+	 */
+	public static int containsBetweenTenAndFifteen(int[] array) {
+		int result = -1;
+		boolean found = false;
+		int i = 0;
+		while (!found && i < array.length) {
+			if (exercise.containsInterval(array[i])) {
+				found = true;
+				result = array[i];
+			}
+			i++;
+		}
+		return result;
+	}
+
+	/**
+	 * Exercise 2 helper method <br/>
+	 * Returns true if the target is in the interval [10;15]
+	 */
+	public static boolean containsInterval(int target) {
+		int[] interval = { 10, 11, 12, 13, 14, 15 };
+		boolean found = false;
+		int i = 0;
+		while (!found && i < interval.length) {
+			if (interval[i] == target) {
+				found = true;
+			}
+			i++;
+		}
+		return found;
+
+	}
+
+	/**
+	 * Exercise 3 <br/>
+	 * Returns true if the array contains adjacent numbers
+	 */
+	public static boolean adjacentNumbers(int[] array) {
+		boolean adjacent = false;
+		int previous = 0;
+		int i = 0;
+		while (!adjacent && i < array.length) {
+			if (array[i] == previous) {
+				adjacent = true;
+			} else {
+				previous = array[i];
+			}
+			i++;
+		}
+		return adjacent;
+	}
+
+	/**
+	 * Exercise 3 <br/>
+	 * Returns true if the same number exists in n adjacent places
+	 */
+	public static boolean adjacentAmount(int[] array, int n) {
+		boolean adjacent = false;
+		int previous = 0;
+		int counter = 0;
+		int i = 0;
+		while (!adjacent && counter <= n && i < array.length - n) {
+
+			if (array[i] != previous) {
+				counter = 0;
+				previous = array[i];
+			} else {
+				n++;
+			}
+
+			if (counter == n) {
+				adjacent = true;
+			}
+
+			i++;
+		}
+		return adjacent;
+	}
+
+}

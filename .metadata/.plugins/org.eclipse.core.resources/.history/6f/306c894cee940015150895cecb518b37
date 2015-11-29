@@ -1,0 +1,37 @@
+package exercise4;
+
+public class Player {
+
+	private String name;
+	private int height;
+	private int weight;
+	private int scoredGoals;
+
+	public Player(String name, int height, int weight, int scoredGoals) {
+		this.name = name;
+		this.height = height;
+		this.weight = weight;
+		this.scoredGoals = scoredGoals;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public int getHeight() {
+		return this.height;
+	}
+
+	public int getWeight() {
+		return this.weight;
+	}
+
+	public int getScoredGoals() {
+		return this.scoredGoals;
+	}
+	
+	public String toString(){
+		return name + " , " + height + " cm, " + weight + " kg, " + scoredGoals + " goals scored"; 
+	}
+
+}

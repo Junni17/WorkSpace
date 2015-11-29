@@ -1,0 +1,82 @@
+package model;
+
+import java.time.LocalDate;
+import java.util.ArrayList;
+
+public class Conference {
+
+	private String name;
+	private int price;
+	private LocalDate startDate;
+	private LocalDate endDate;
+	private ArrayList<Excursion> excursions = new ArrayList<>();
+
+	public Conference(String name, int price, LocalDate startDate, LocalDate endDate) {
+		this.name = name;
+		this.price = price;
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getPrice() {
+		return this.price;
+	}
+
+	public void setPrice(int price) {
+		this.price = price;
+	}
+
+	public LocalDate getStartDate() {
+		return this.startDate;
+	}
+
+	public void setStartDate(LocalDate startDate) {
+		this.startDate = startDate;
+	}
+
+	public LocalDate getEndDate() {
+		return this.endDate;
+	}
+
+	public void setEndDate(LocalDate endDate) {
+		this.endDate = endDate;
+	}
+
+	/**
+	 * Returns a list of the excursions.
+	 */
+	public ArrayList<Excursion> getExcursions() {
+		return this.excursions;
+	}
+
+	/**
+	 * Adds an excursion to the conference.
+	 */
+	public void addExcursion(Excursion excursion) {
+		assert excursion != null;
+		this.excursions.add(excursion);
+	}
+
+	/**
+	 * Removes an excursion from the conference.
+	 */
+	public void removeExcursion(Excursion excursion) {
+		assert excursion != null;
+		this.excursions.remove(excursion);
+	}
+
+	@Override
+	public String toString() {
+		String temp = this.name + ", price: " + this.price + ", dates: " + this.startDate + " till " + this.endDate;
+		return temp;
+	}
+
+}

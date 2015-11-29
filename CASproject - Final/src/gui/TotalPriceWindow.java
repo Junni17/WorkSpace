@@ -1,0 +1,65 @@
+package gui;
+
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.GridPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import model.Enrollment;
+
+public class TotalPriceWindow extends Stage {
+
+	public TotalPriceWindow(Stage owner) {
+		this.initOwner(owner);
+		this.initModality(Modality.APPLICATION_MODAL);
+		this.setResizable(false);
+
+		this.setTitle("Total Price");
+		GridPane pane = new GridPane();
+		this.initContent(pane);
+
+		Scene scene = new Scene(pane);
+		this.setScene(scene);
+	}
+
+	private Label lblPrice;
+
+	private void initContent(GridPane pane) {
+
+		pane.setGridLinesVisible(!true);
+		pane.setHgap(20);
+		pane.setVgap(10);
+		pane.setPadding(new Insets(20));
+
+		this.lblPrice = new Label();
+		pane.add(this.lblPrice, 0, 1);
+
+		Button btnClose = new Button("OK");
+		pane.add(btnClose, 0, 2);
+		btnClose.setOnAction(event -> this.controller.okOnAction());
+	}
+
+	public void setEnrollment(Enrollment enrollment) {
+		this.controller.enrollment = enrollment;
+		this.controller.updateControlls();
+	}
+
+	private Controller controller = new Controller();
+
+	private class Controller {
+
+		private Enrollment enrollment;
+
+		private void updateControlls() {
+			TotalPriceWindow.this.lblPrice
+					.setText("The total price for the enrollment is: " + this.enrollment.getTotalPrice());
+		}
+
+		private void okOnAction() {
+			TotalPriceWindow.this.hide();
+		}
+	}
+
+}

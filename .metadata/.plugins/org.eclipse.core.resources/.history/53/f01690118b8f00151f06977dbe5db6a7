@@ -1,0 +1,53 @@
+package service;
+
+import java.time.LocalDate;
+import java.time.Month;
+
+import model.Conference;
+import model.Excursion;
+import storage.Storage;
+
+public class Service {
+
+	/**
+	 * Creates a new Conference.<br />
+	 * Requires: name not empty, price > 0, endDate is after startDate
+	 */
+	public static Conference createConference(String name, int price, LocalDate startDate, LocalDate endDate) {
+		assert name != "" && price > 0 && endDate.isAfter(startDate);
+		Conference conference = new Conference(name, price, startDate, endDate);
+		Storage.storeConference(conference);
+		return conference;
+	}
+
+	// /**
+	// * Creates a new excursion and connects it to a conference.<br />
+	// * Requires: name not empty, price > 0, date is after start date of
+	// * conference, date is before end date of conference.
+	// */
+	// public static Excursion createExcursion(String name, int price, LocalDate
+	// date, Conference conference) {
+	// assert name != "" && price > 0 && date.isAfter(conference.getStartDate())
+	// && date.isBefore(conference.getEndDate()) && conference != null;
+	// Excursion excursion = new Excursion(name, date, price);
+	// conference.addExcursion(excursion);
+	// Storage.storeExcursion(excursion);
+	// return excursion;
+	// }
+
+	public static void setConferenceOfExcursion(Excursion excursion, Conference conference) {
+		conference.addExcursion(excursion);
+	}
+	
+	public static initStorage(){
+		  Service.createConference("Android security", 300, LocalDate.of(2016, 6, 3),
+	              LocalDate.of(2016, Month.JUNE, 15));
+	      Service.createConference("Java Object Language Perspective", 500, LocalDate.of(2016, 8, 7),
+	              LocalDate.of(2016, Month.AUGUST, 12));
+	      Service.createConference("Be Mobile!", 450, LocalDate.of(2016, 8, 7),
+	              LocalDate.of(2016, Month.AUGUST, 12));
+	      Service.createConference("Do it rather in C++", 320, LocalDate.of(2016, 8, 7),
+	              LocalDate.of(2016, Month.AUGUST, 12));
+		}
+
+}

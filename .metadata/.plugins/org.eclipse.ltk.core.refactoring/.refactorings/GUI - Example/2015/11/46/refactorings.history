@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Copy element &apos;MainApp.java&apos; to &apos;Connections - Architecture/exercise2/gui&apos;&#x0D;&#x0A;- Original project: &apos;GUI - Example&apos;&#x0D;&#x0A;- Destination element: &apos;Connections - Architecture/exercise2/gui&apos;&#x0D;&#x0A;- Original element: &apos;demo1_1.MainApp.java&apos;" description="Copy compilation unit" destination="=Connections - Architecture/exercise2&lt;gui" element1="/src&lt;demo1_1{MainApp.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.copy" policy="org.eclipse.jdt.ui.copyResources" stamp="1447070430707" units="1" version="1.0"/>
+</session>

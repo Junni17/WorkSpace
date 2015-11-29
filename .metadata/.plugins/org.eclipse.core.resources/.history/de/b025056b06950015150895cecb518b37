@@ -1,0 +1,32 @@
+package exercise7;
+
+public class exercise {
+
+	public static void main(String[] args) {
+
+		int[] test = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+		System.out.println(exercise.SearchSum(test, 18));
+
+	}
+
+	public static int SearchSum(int[] t, int total) {
+		int index = -1;
+		boolean found = false;
+		int i = 0;
+		while (!found && i < t.length) {
+			int sum = 0;
+			if (sum == total) {
+				index = i;
+				found = true;
+			}
+			int j = i;
+			while (!found && j < t.length) {
+				sum += t[i];
+				j++;
+			}
+			i++;
+		}
+		return index;
+	}
+
+}

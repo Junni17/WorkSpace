@@ -1,0 +1,29 @@
+package storage;
+
+import java.util.ArrayList;
+
+import model.Conference;
+import model.Excursion;
+
+public class Storage {
+
+	private static ArrayList<Conference> conferences = new ArrayList<>();
+	private static ArrayList<Excursion> excursions = new ArrayList<>();
+
+	public static ArrayList<Conference> getAllConferences() {
+		return new ArrayList<>(conferences);
+	}
+
+	public static void storeConference(Conference conference) {
+		conferences.add(conference);
+	}
+
+	public static ArrayList<Excursion> getAllExcursions() {
+		return new ArrayList<>(excursions);
+	}
+
+	public static void storeExcursion(Excursion excursion) {
+		excursions.add(excursion);
+	}
+
+}
